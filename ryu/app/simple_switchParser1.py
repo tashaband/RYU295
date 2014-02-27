@@ -35,7 +35,7 @@ class SimpleSwitch(app_manager.RyuApp):
         super(SimpleSwitch, self).__init__(*args, **kwargs)
         self.mac_to_port = {}
  
-    def packetParser(self, pkt):
+    def packetParser(self, msg):
         my_array = array('B', msg.data)
         pkt = packet.Packet(my_array)
         for p in pkt:
