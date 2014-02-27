@@ -35,9 +35,7 @@ class SimpleSwitch(app_manager.RyuApp):
         super(SimpleSwitch, self).__init__(*args, **kwargs)
         self.mac_to_port = {}
  
-    def packetParser(self, msg):
-        my_array = array('B', msg.data)
-        pkt = packet.Packet(my_array)
+    def packetParser(self, pkt):
         for p in pkt:
             print p.protocol_name
             if p.protocol_name == 'ethernet':
@@ -79,9 +77,10 @@ class SimpleSwitch(app_manager.RyuApp):
         datapath = msg.datapath
         ofproto = datapath.ofproto
 
-        self.packetParser(msg)
+        
 
         pkt = packet.Packet(msg.data)
+        self.packetParser(pkt)
         eth = pkt.get_protocol(ethernet.ethernet)
 
         dst = eth.dst
