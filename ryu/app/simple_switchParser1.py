@@ -24,7 +24,7 @@ from ryu.controller.handler import set_ev_cls
 from ryu.ofproto import ofproto_v1_0
 from ryu.lib.mac import haddr_to_str
 from ryu.lib.packet import packet
-
+from array import *
 
 
 
@@ -36,6 +36,8 @@ class SimpleSwitch(app_manager.RyuApp):
         self.mac_to_port = {}
  
     def packetParser(self, pkt):
+        my_array = array('B', msg.data)
+        pkt = packet.Packet(my_array)
         for p in pkt:
             print p.protocol_name
             if p.protocol_name == 'ethernet':
