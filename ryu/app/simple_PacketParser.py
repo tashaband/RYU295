@@ -47,6 +47,31 @@ class SimpleSwitch(app_manager.RyuApp):
             flags=ofproto.OFPFF_SEND_FLOW_REM, actions=actions)
         datapath.send_msg(mod)
 
+    def packetParser(self, msg):
+        my_array = array('B', msg.data)
+        pkt = packet.Packet(my_array)
+        for p in pkt:
+            print p.protocol_name
+            if p.protocol_name == 'ethernet':
+                print 'ethernet src = ', p.src
+                print 'ethernet dst = ', p.dst
+                print 'ethernet type = ', p.ethertype
+            if p.protocol_name == 'arp':
+                print 'arp src mac = ', p.src_mac
+                print 'arp src ip = ', p.src_ip
+                print 'arp dst mac = ', p.dst_mac
+                print 'arp dst ip = ', p.dst_ip
+                
+            if p.protocol_name == 'ipv4':
+                print 'ipv4 id = ', p.identification
+                print 'ipv4 src ip = ', p.src
+                print 'ipv4 dst ip = ', p.dst
+                print 'ipv4 flags = ', p.flags
+            if p.protocol_name == 'icmp':
+                print 'icmp type = ', p.type
+                print 'icmp code = ', p.code
+                print 'icmp data = ', p.data
+
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
         msg = ev.msg
@@ -63,7 +88,8 @@ class SimpleSwitch(app_manager.RyuApp):
         self.mac_to_port.setdefault(dpid, {})
 
         self.logger.info("packet in %s %s %s %s", dpid, src, dst, msg.in_port)
-
+        
+        self.packetParser(msg)
         # learn a mac address to avoid FLOOD next time.
         self.mac_to_port[dpid][src] = msg.in_port
 
