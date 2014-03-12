@@ -1,18 +1,3 @@
-# Copyright (C) 2011 Nippon Telegraph and Telephone Corporation.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-# implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import logging
 import struct
 
@@ -27,12 +12,13 @@ from ryu.lib.packet import packet
 from ryu.lib.packet import ethernet
 from array import *
 
-class SimpleSwitch(app_manager.RyuApp):
+class SimplePacketParser(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_0.OFP_VERSION]
 
     def __init__(self, *args, **kwargs):
-        super(SimpleSwitch, self).__init__(*args, **kwargs)
+        super(SimplePacketParser, self).__init__(*args, **kwargs)
         self.mac_to_port = {}
+        self.known_dpid = []
 
     def add_flow(self, datapath, in_port, dst, actions):
         ofproto = datapath.ofproto
@@ -46,6 +32,18 @@ class SimpleSwitch(app_manager.RyuApp):
             priority=ofproto.OFP_DEFAULT_PRIORITY,
             flags=ofproto.OFPFF_SEND_FLOW_REM, actions=actions)
         datapath.send_msg(mod)
+
+    def delete_flow_entry(self,datapath):
+        match = datapath.ofproto_parser.OFPMatch(
+              dp.ofproto.OFPFW_ALL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+        mod = datapath.ofproto_parser.OFPFlowMod(
+            datapath=dp, match=match, cookie=0,
+            command=dp.ofproto.OFPFC_DELETE)
+
+        dp.send_msg(mod)
+        self.known_dpid.extend([datapath.id])
+    
 
     def packetParser(self, msg):
         my_array = array('B', msg.data)
@@ -85,6 +83,10 @@ class SimpleSwitch(app_manager.RyuApp):
         src = eth.src
 
         dpid = datapath.id
+        
+        if not dpid in self.known_dpid:
+            self.delete_flow_entry(datapath)
+            
         self.mac_to_port.setdefault(dpid, {})
 
         self.logger.info("packet in %s %s %s %s", dpid, src, dst, msg.in_port)
