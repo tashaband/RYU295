@@ -22,7 +22,6 @@ class SimplePacketParser(app_manager.RyuApp):
         super(SimplePacketParser, self).__init__(*args, **kwargs)
         self.mac_to_port = {}
         self.dpset = kwargs['dpset']
-        self.known_dpid = []
 
     def add_flow(self, datapath, in_port, dst, actions):
         ofproto = datapath.ofproto
@@ -46,7 +45,6 @@ class SimplePacketParser(app_manager.RyuApp):
             command=datapath.ofproto.OFPFC_DELETE)
 
         datapath.send_msg(mod)
-        self.known_dpid.extend([datapath.id])
     
 
     def packetParser(self, msg):
@@ -96,8 +94,6 @@ class SimplePacketParser(app_manager.RyuApp):
 
         dpid = datapath.id
         
-        if dpid not in self.known_dpid:
-            self.delete_flow_entry(datapath)
             
         self.mac_to_port.setdefault(dpid, {})
 
