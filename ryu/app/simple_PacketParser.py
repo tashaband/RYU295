@@ -4,6 +4,7 @@ import struct
 from ryu.base import app_manager
 from ryu.controller import mac_to_port
 from ryu.controller import ofp_event
+from ryu.controller import dpset
 from ryu.controller.handler import MAIN_DISPATCHER
 from ryu.controller.handler import set_ev_cls
 from ryu.ofproto import ofproto_v1_0
@@ -13,11 +14,13 @@ from ryu.lib.packet import ethernet
 from array import *
 
 class SimplePacketParser(app_manager.RyuApp):
+    _CONTEXTS = {'dpset': dpset.DPSet}
     OFP_VERSIONS = [ofproto_v1_0.OFP_VERSION]
 
     def __init__(self, *args, **kwargs):
         super(SimplePacketParser, self).__init__(*args, **kwargs)
         self.mac_to_port = {}
+        self.dpset = kwargs['dpset']
         self.known_dpid = []
 
     def add_flow(self, datapath, in_port, dst, actions):
@@ -69,6 +72,14 @@ class SimplePacketParser(app_manager.RyuApp):
                 print 'icmp type = ', p.type
                 print 'icmp code = ', p.code
                 print 'icmp data = ', p.data
+                
+    @handler.set_ev_cls(dpset.EventDP)
+    def dp_handler(self, ev):
+        if not ev.enter:
+            return
+
+        dp = ev.dp
+        self.delete_flow_entry(dp)
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
@@ -84,7 +95,7 @@ class SimplePacketParser(app_manager.RyuApp):
 
         dpid = datapath.id
         
-        if not dpid in self.known_dpid:
+        if dpid not in self.known_dpid:
             self.delete_flow_entry(datapath)
             
         self.mac_to_port.setdefault(dpid, {})
