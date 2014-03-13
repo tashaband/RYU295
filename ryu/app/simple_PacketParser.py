@@ -35,13 +35,13 @@ class SimplePacketParser(app_manager.RyuApp):
 
     def delete_flow_entry(self,datapath):
         match = datapath.ofproto_parser.OFPMatch(
-              dp.ofproto.OFPFW_ALL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+              datapath.ofproto.OFPFW_ALL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
         mod = datapath.ofproto_parser.OFPFlowMod(
-            datapath=dp, match=match, cookie=0,
-            command=dp.ofproto.OFPFC_DELETE)
+            datapath=datapath, match=match, cookie=0,
+            command=datapath.ofproto.OFPFC_DELETE)
 
-        dp.send_msg(mod)
+        datapath.send_msg(mod)
         self.known_dpid.extend([datapath.id])
     
 
