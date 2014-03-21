@@ -12,16 +12,21 @@ from ryu.ofproto import ofproto_v1_0
 from ryu.lib.mac import haddr_to_bin
 from ryu.lib.packet import packet
 from ryu.lib.packet import ethernet
+from ryu.lib.ids import ids_monitor
 from array import *
 
 class SimplePacketParser(app_manager.RyuApp):
-    _CONTEXTS = {'dpset': dpset.DPSet}
+    _CONTEXTS = {
+                 'dpset': dpset.DPSet,
+                 'ids_monitor': ids_monitor.IDSMonitor
+                 }
     OFP_VERSIONS = [ofproto_v1_0.OFP_VERSION]
 
     def __init__(self, *args, **kwargs):
         super(SimplePacketParser, self).__init__(*args, **kwargs)
         self.mac_to_port = {}
         self.dpset = kwargs['dpset']
+        self.ids_monitor = kwargs['ids_monitor']
 
     def add_flow(self, datapath, in_port, dst, actions):
         ofproto = datapath.ofproto
@@ -100,6 +105,7 @@ class SimplePacketParser(app_manager.RyuApp):
         self.logger.info("packet in %s %s %s %s", dpid, src, dst, msg.in_port)
         
         self.packetParser(msg)
+        self.ids_monitor.check_packet(msg)
         # learn a mac address to avoid FLOOD next time.
         self.mac_to_port[dpid][src] = msg.in_port
 
@@ -119,6 +125,17 @@ class SimplePacketParser(app_manager.RyuApp):
             datapath=datapath, buffer_id=msg.buffer_id, in_port=msg.in_port,
             actions=actions)
         datapath.send_msg(out)
+
+
+    @set_ev_cls(ids_monitor.AttackAlert)
+    def _dump_alert(self, ev):
+        alertmsg = ev.alertmsg
+        msg = ev.data
+
+        print '---------------alertmsg:', ''.join(alertmsg)
+        print 'Packet causing alert'
+
+        self.packetParser(msg)
 
     @set_ev_cls(ofp_event.EventOFPPortStatus, MAIN_DISPATCHER)
     def _port_status_handler(self, ev):
