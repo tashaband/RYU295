@@ -3,6 +3,7 @@ import gevent
 from ryu.base import app_manager
 from ryu.controller import event
 from ryu.lib.packet import packet
+from ryu.lib.ids import ids_tcp
 from array import *
 
 
@@ -28,6 +29,7 @@ class IDSMonitor(app_manager.RyuApp):
             print rule
         my_array = array('B', msg.data)
         pkt = packet.Packet(my_array)
+        ids_tcp.check_packet(msg,'alert','tcp','any','any','any','any')
         for p in pkt:
             print p.protocol_name
             if p.protocol_name == 'icmp':
