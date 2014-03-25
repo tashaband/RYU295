@@ -29,7 +29,9 @@ class IDSMonitor(app_manager.RyuApp):
             print rule
         my_array = array('B', msg.data)
         pkt = packet.Packet(my_array)
-        ids_tcp.check_packet(msg,'alert','tcp','any','any','any','any')
+
+        ids_pkt = ids_tcp.IDStcp(msg)
+        ids_pkt.check_packet('alert','any','any')
         for p in pkt:
             print p.protocol_name
             if p.protocol_name == 'icmp':
