@@ -2,6 +2,7 @@ import os
 import gevent
 from ryu.base import app_manager
 from ryu.controller import event
+from ryu.lib.packet import packet
 from array import *
 
 
@@ -23,7 +24,7 @@ class IDSMonitor(app_manager.RyuApp):
 
 
     def check_packet(self,msg):
-        for rule in rules:
+        for rule in self.rules:
             print rule
         my_array = array('B', msg.data)
         pkt = packet.Packet(my_array)
@@ -35,7 +36,7 @@ class IDSMonitor(app_manager.RyuApp):
 
     def read_rules(self):
         print 'Reading SNORT RULES file'
-        fname = 'rules.txt'
+        fname = '/home/mininet/RYU295/ryu/lib/ids/rules.txt'
         with open(fname) as f:
             self.rules = f.readlines()
             
