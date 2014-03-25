@@ -86,7 +86,8 @@ class SimplePP13(app_manager.RyuApp):
             out_port = ofproto.OFPP_FLOOD
 
         actions = [parser.OFPActionOutput(out_port),
-                   parser.OFPActionOutput(ofproto.OFPP_CONTROLLER)]
+                   parser.OFPActionOutput(ofproto.OFPP_CONTROLLER,
+                                          ofproto.OFPCML_NO_BUFFER)]
 
         # install a flow to avoid packet_in next time
         if out_port != ofproto.OFPP_FLOOD:
