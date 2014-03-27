@@ -27,10 +27,20 @@ class IDSMonitor(app_manager.RyuApp):
     def check_packet(self,msg):
         for rule in self.rules:
             print rule
+            rule_contents = split(rule)
+            if len(rule_contents) < 6:
+                print 'error'
+            else:
+                protocolcls = rule_contents[1]
+                alert_type = rule_contents[0]
+                sr_ip = rule_contents[2]
+                sr_port = rule_contents[3]
+                dst_ip = rule_contents[4]
+                dst_port = rule_contents[5]
         my_array = array('B', msg.data)
         pkt = packet.Packet(my_array)
 
-        ids_pkt = ids_tcp.IDStcp(msg)
+        ids_pkt = protocolcls.protocolcls(msg)
         ids_pkt.check_packet('alert','any','any')
         for p in pkt:
             print p.protocol_name
