@@ -30,7 +30,7 @@ class IDSMonitor(app_manager.RyuApp):
             print rule
             rule_contents = rule.split()
             if len(rule_contents) < 6:
-                raise Exception("Invalid Alert Rule")
+                raise Exception("Invalid Alert Rule: Length", len(rule_contents))
             else:
                 protocolcls = self.protocol_types.get(rule_contents[1])
                 alert_type = rule_contents[0]
