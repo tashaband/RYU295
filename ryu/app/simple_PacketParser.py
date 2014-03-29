@@ -76,6 +76,10 @@ class SimplePacketParser(app_manager.RyuApp):
                 print 'icmp type = ', p.type
                 print 'icmp code = ', p.code
                 print 'icmp data = ', p.data
+            if p.protocol_name == 'tcp':
+                print 'icmp type = ', p.src_port
+                print 'icmp code = ', p.dst_port
+                print 'icmp data = ', p.data
                 
     @handler.set_ev_cls(dpset.EventDP)
     def dp_handler(self, ev):
@@ -105,7 +109,8 @@ class SimplePacketParser(app_manager.RyuApp):
         self.logger.info("packet in %s %s %s %s", dpid, src, dst, msg.in_port)
         
         self.packetParser(msg)
-        self.ids_monitor.check_packet(msg)
+        gevent.spawn_later(0, self.ids_monitor.check_packet(msg))
+        
         # learn a mac address to avoid FLOOD next time.
         self.mac_to_port[dpid][src] = msg.in_port
 
