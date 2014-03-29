@@ -38,7 +38,7 @@ class IDSMonitor(app_manager.RyuApp):
                 sr_port = rule_contents[3]
                 dst_ip = rule_contents[4]
                 dst_port = rule_contents[5]
-                ids_pkt = protocolcls.protocolcls(msg)
+                ids_pkt = protocolcls(msg)
                 ids_pkt.check_packet(alert_type,sr_ip,sr_port, dst_ip, dst_port)
 
 

@@ -14,8 +14,8 @@ class tcp(object):
         
         p_dst = eth_pkt.dst
         p_src = eth_pkt.src
-        if (src == 'any' or src_ip == p_src):
-            if (dst == 'any' or dst_ip == p_dst):
+        if (src_ip == 'any' or src_ip == p_src):
+            if (dst_ip == 'any' or dst_ip == p_dst):
                 if mode == 'alert':
                     alertmsg = 'Ethernet Attack Packet'
                     self.send_event_to_observers(AttackAlert(alertmsg,msg))
