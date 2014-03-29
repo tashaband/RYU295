@@ -13,9 +13,14 @@ class tcp(object):
         eth_pkt = pkt.get_protocol(ethernet.ethernet)
         
         p_dst = eth_pkt.dst
+
         p_src = eth_pkt.src
-        if (src_ip == 'any' or src_ip == p_src):
-            if (dst_ip == 'any' or dst_ip == p_dst):
+        print 'packet source', p_src
+        print 'packet dst', p_dst
+        print 'rule source', src_ip
+        print 'rule dst', dst_ip
+        if ((src_ip == 'any') or (src_ip == p_src)):
+            if ((dst_ip == 'any') or (dst_ip == p_dst)):
                 if mode == 'alert':
                     print 'Ethernet Attack Packet'
                     alertmsg = 'Ethernet Attack Packet'
