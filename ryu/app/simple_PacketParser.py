@@ -81,9 +81,9 @@ class SimplePacketParser(app_manager.RyuApp):
                 print 'icmp code = ', p.code
                 print 'icmp data = ', p.data
             if p.protocol_name == 'tcp':
-                print 'icmp type = ', p.src_port
-                print 'icmp code = ', p.dst_port
-                print 'icmp data = ', p.data
+                print 'tcp src port = ', p.src_port
+                print 'tcp dst port = ', p.dst_port
+
             
                 
     @handler.set_ev_cls(dpset.EventDP)
