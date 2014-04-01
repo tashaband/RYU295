@@ -1,5 +1,5 @@
 from ryu.lib.packet import packet
-from ryu.lib.packet import ethernet
+from ryu.lib.packet import ipv4
 
 
 class tcp(object):
@@ -10,11 +10,11 @@ class tcp(object):
 
     def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port): 
         pkt = packet.Packet(self.packet_data.data)
-        eth_pkt = pkt.get_protocol(ethernet.ethernet)
+        ip_pkt = pkt.get_protocol(ipv4.ipv4)
         
-        p_dst = eth_pkt.dst
+        p_dst = ip_pkt.dst
 
-        p_src = eth_pkt.src
+        p_src = ip_pkt.src
         print 'packet source', p_src
         print 'packet dst', p_dst
         print 'rule source', src_ip

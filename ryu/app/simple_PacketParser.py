@@ -55,6 +55,10 @@ class SimplePacketParser(app_manager.RyuApp):
     def packetParser(self, msg):
         my_array = array('B', msg.data)
         pkt = packet.Packet(my_array)
+        for p in pkt.protocols:
+            if hasattr(p, 'protocol_name') is False:
+                print 'data:', p
+            print 'p:', p.protocol_name
         for p in pkt:
             print p.protocol_name
             if p.protocol_name == 'ethernet':
@@ -80,6 +84,7 @@ class SimplePacketParser(app_manager.RyuApp):
                 print 'icmp type = ', p.src_port
                 print 'icmp code = ', p.dst_port
                 print 'icmp data = ', p.data
+            
                 
     @handler.set_ev_cls(dpset.EventDP)
     def dp_handler(self, ev):
