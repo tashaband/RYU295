@@ -39,8 +39,10 @@ class IDSMonitor(app_manager.RyuApp):
                 dst_ip = rule_contents[4]
                 dst_port = rule_contents[5]
                 ids_pkt = protocolcls(msg)
-                ids_pkt.check_packet(alert_type,sr_ip,sr_port, dst_ip, dst_port)
-
+                alertmsg = ids_pkt.check_packet(alert_type,sr_ip,sr_port, dst_ip, dst_port)
+                
+            if alertmsg:
+                self.send_event_to_observers(AttackAlert(alertmsg,msg))
 
     def read_rules(self):
         print 'Reading SNORT RULES file'
