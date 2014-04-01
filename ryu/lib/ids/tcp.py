@@ -27,4 +27,4 @@ class tcp(object):
                         if mode == 'alert':
                             print 'TCP Attack Packet'
                             alertmsg = 'TCP Attack Packet'
-                            self.send_event_to_observers(AttackAlert(alertmsg,msg))
+                            return alertmsg
