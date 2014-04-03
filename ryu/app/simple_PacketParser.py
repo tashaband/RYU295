@@ -83,7 +83,7 @@ class SimplePacketParser(app_manager.RyuApp):
             if p.protocol_name == 'tcp':
                 print 'tcp src port = ', p.src_port
                 print 'tcp dst port = ', p.dst_port
-
+                print 'tcp options = ', p.option
             
                 
     @handler.set_ev_cls(dpset.EventDP)
