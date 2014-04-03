@@ -15,7 +15,7 @@ class tcp(object):
             if p.protocol_name == 'tcp':
                 
                 match = self.check_tcp_ip_port_match(src_ip, src_port, dst_ip, dst_port, pkt)
-                if match == 'true': 
+                if match == True: 
                     f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
                     f.write("TCP Attack Packet with source ip address/port:", src_ip,"/",src_port," and destination ip address/port:",dst_ip,"/",dst_port) 
                     f.close()
@@ -44,5 +44,5 @@ class tcp(object):
             if ((dst_ip == 'any') or (dst_ip == p_dst)):
                 if ((src_port == 'any') or (src_port == p_src_port)):
                     if ((dst_port == 'any') or (dst_port == p_dst_port)):
-                        return true
+                        return True
         

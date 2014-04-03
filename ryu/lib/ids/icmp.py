@@ -15,7 +15,7 @@ class icmp(object):
             if p.protocol_name == 'icmp':
                 
                 match = self.check_ip_match(src_ip, dst_ip, pkt)
-                if match == 'true': 
+                if match == True: 
                     f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
                     f.write("ICMP Attack Packet with source ip address/port:", src_ip,"/",src_port," and destination ip address/port:",dst_ip,"/",dst_port) 
                     f.close()
@@ -39,5 +39,5 @@ class icmp(object):
         print 'rule dst', dst_ip
         if ((src_ip == 'any') or (src_ip == p_src)):
             if ((dst_ip == 'any') or (dst_ip == p_dst)):
-                return true
+                return True
         

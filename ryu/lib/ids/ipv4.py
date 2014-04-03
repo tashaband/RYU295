@@ -15,7 +15,7 @@ class ipv4(object):
             if p.protocol_name == 'ipv4':
                 
                 match = self.check_ip_match(src_ip, dst_ip, pkt)
-                if match == 'true': 
+                if match == True: 
                     f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
                     f.write("IP Attack Packet with source ip address:", src_ip," and destination ip address:",dst_ip) 
                     f.close()
@@ -39,5 +39,5 @@ class ipv4(object):
         print 'rule dst', dst_ip
         if ((src_ip == 'any') or (src_ip == p_src)):
             if ((dst_ip == 'any') or (dst_ip == p_dst)):
-                return true
+                return True
         
