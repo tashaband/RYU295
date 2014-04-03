@@ -1,6 +1,5 @@
 alert tcp any any 10.0.0.3 111 
-alert ip any any 10.0.0.1 112 
+alert tcp any any 10.0.0.1 112 
 alert tcp 192.168.2.0 any 10.0.0.2 113 
 alert icmp any any any any 
-alert ip any any 10.0.0.1 112 
-alert tcp 192.168.2.0 any 10.0.0.2 113 
+alert ip any any any any 
