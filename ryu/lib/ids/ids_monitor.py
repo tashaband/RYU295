@@ -3,7 +3,7 @@ import gevent
 from ryu.base import app_manager
 from ryu.controller import event
 from ryu.lib.packet import packet
-from . import tcp
+from . import tcp,ipv4,icmp
 from array import *
 
 
@@ -21,7 +21,7 @@ class IDSMonitor(app_manager.RyuApp):
         super(IDSMonitor, self).__init__()
         self.name = 'ids_monitor'
         self.rules = []
-        self.protocol_types={'tcp':tcp.tcp,'ip':tcp.tcp,}
+        self.protocol_types={'tcp':tcp.tcp,'ip':ipv4.ipv4,'icmp':icmp.icmp}
         gevent.spawn_later(0, self.read_rules())
 
 
