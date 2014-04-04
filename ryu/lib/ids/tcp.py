@@ -17,7 +17,7 @@ class tcp(object):
                 match = self.check_tcp_ip_port_match(src_ip, src_port, dst_ip, dst_port, pkt)
                 if match == True: 
                     f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
-                    f.write("TCP Attack Packet with source ip address/port:", src_ip,"/",src_port," and destination ip address/port:",dst_ip,"/",dst_port) 
+                    f.write('TCP Attack Packet') 
                     f.close()
                     if mode == 'alert':
                         print 'TCP Attack Packet'

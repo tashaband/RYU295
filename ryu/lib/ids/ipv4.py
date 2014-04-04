@@ -17,7 +17,7 @@ class ipv4(object):
                 match = self.check_ip_match(src_ip, dst_ip, pkt)
                 if match == True: 
                     f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
-                    f.write("IP Attack Packet with source ip address:", src_ip," and destination ip address:",dst_ip) 
+                    f.write('IP Attack Packet') 
                     f.close()
                     if mode == 'alert':
                         print 'IP Attack Packet'

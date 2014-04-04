@@ -17,7 +17,7 @@ class icmp(object):
                 match = self.check_ip_match(src_ip, dst_ip, pkt)
                 if match == True: 
                     f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
-                    f.write("ICMP Attack Packet with source ip address/port:", src_ip,"/",src_port," and destination ip address/port:",dst_ip,"/",dst_port) 
+                    f.write('ICMP Attack Packet') 
                     f.close()
                     if mode == 'alert':
                         print 'ICMP Attack Packet'
