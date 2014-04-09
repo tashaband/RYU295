@@ -5,18 +5,17 @@ from ryu.lib.packet import ipv4
 class icmp(object):
     
     def __init__(self,packet_data):
-        self.packet_data = packet_data        
-        self.dst_ip = ids_utils.get_packet_dst_ip_address(packet_data)
-        self.src_ip = ids_utils.get_packet_src_ip_address(packet_data)
+        self.packet_data =  packet.Packet(packet_data.data)  
+        self.dst_ip = ids_utils.get_packet_dst_ip_address(self.packet_data)
+        self.src_ip = ids_utils.get_packet_src_ip_address(self.packet_data)
 
 
     def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port): 
-        pkt = packet.Packet(self.packet_data.data)
-        for p in pkt:
+        for p in self.packet_data:
             print p.protocol_name
             if p.protocol_name == 'icmp':
                 
-                match = self.check_ip_match(src_ip, dst_ip, pkt)
+                match = self.check_ip_match(src_ip, dst_ip)
                 if match == True: 
                     f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
                     f.write('ICMP Attack Packet') 
@@ -29,7 +28,7 @@ class icmp(object):
      
      
                                 
-    def check_ip_match(self,src_ip, dst_ip, pkt):
+    def check_ip_match(self,src_ip, dst_ip):
         print 'packet source', self.src_ip
         print 'packet dst', self.dst_ip
         print 'rule source', src_ip
