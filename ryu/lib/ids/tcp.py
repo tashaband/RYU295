@@ -1,11 +1,16 @@
 from ryu.lib.packet import packet
 from ryu.lib.packet import ipv4
+from . import ids_utils
 
 
 class tcp(object):
     
     def __init__(self,packet_data):
-        self.packet_data = packet_data        
+        self.packet_data = packet_data 
+        self.dst_ip = ids_utils.get_packet_dst_ip_address(packet_data)
+        self.src_ip = ids_utils.get_packet_src_ip_address(packet_data)
+        self.dst_port = ids_utils.get_packet_dst_port(packet_data)
+        self.src_port = ids_utils.get_packet_src_port(packet_data)      
     
 
     def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port): 
@@ -28,21 +33,15 @@ class tcp(object):
      
                                 
     def check_tcp_ip_port_match(self,src_ip, src_port, dst_ip, dst_port, pkt):
-        ip_pkt = pkt.get_protocol(ipv4.ipv4)
-        p_dst = ip_pkt.dst
-        p_src = ip_pkt.src
+
         
-        ip_pkt = pkt.get_protocol(tcp.tcp)
-        p_dst_port = p.dst_port
-        p_src_port = p.src_port
-        
-        print 'packet source', p_src
-        print 'packet dst', p_dst
+        print 'packet source', self.src_ip
+        print 'packet dst', self.dst_ip
         print 'rule source', src_ip
         print 'rule dst', dst_ip
-        if ((src_ip == 'any') or (src_ip == p_src)):
-            if ((dst_ip == 'any') or (dst_ip == p_dst)):
-                if ((src_port == 'any') or (src_port == p_src_port)):
-                    if ((dst_port == 'any') or (dst_port == p_dst_port)):
+        if ((src_ip == 'any') or (src_ip == self.src_ip)):
+            if ((dst_ip == 'any') or (dst_ip == self.dst_ip)):
+                if ((src_port == 'any') or (src_port == self.src_port)):
+                    if ((dst_port == 'any') or (dst_port == self.dst_port)):
                         return True
         

@@ -6,7 +6,8 @@ class ipv4(object):
     
     def __init__(self,packet_data):
         self.packet_data = packet_data        
-    
+        self.dst_ip = ids_utils.get_packet_dst_ip_address(packet_data)
+        self.src_ip = ids_utils.get_packet_src_ip_address(packet_data)
 
     def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port): 
         pkt = packet.Packet(self.packet_data.data)
@@ -28,16 +29,10 @@ class ipv4(object):
      
                                 
     def check_ip_match(self,src_ip, dst_ip, pkt):
-        ip_pkt = pkt.get_protocol(ipv4.ipv4)
-        p_dst = ip_pkt.dst
-        p_src = ip_pkt.src
-        
-        
-        print 'packet source', p_src
-        print 'packet dst', p_dst
+        print 'packet source', self.src_ip
+        print 'packet dst', self.dst_ip
         print 'rule source', src_ip
         print 'rule dst', dst_ip
-        if ((src_ip == 'any') or (src_ip == p_src)):
-            if ((dst_ip == 'any') or (dst_ip == p_dst)):
-                return True
-        
+        if ((src_ip == 'any') or (src_ip == self.src_ip)):
+            if ((dst_ip == 'any') or (dst_ip == self.dst_ip)):
+                return True  
