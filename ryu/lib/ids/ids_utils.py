@@ -1,3 +1,4 @@
+import struct
 from ryu.lib.packet import stream_parser
 
 UNPACK_STR = '!%ds'
