@@ -58,7 +58,6 @@ class SimplePacketParser(app_manager.RyuApp):
         for p in pkt.protocols:
             if hasattr(p, 'protocol_name') is False:
                 print 'data:', p
-            print 'p:', p.protocol_name
         for p in pkt:
             print p.protocol_name
             if p.protocol_name == 'ethernet':
