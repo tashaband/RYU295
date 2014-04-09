@@ -12,18 +12,19 @@ class icmp(object):
 
     def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port): 
         for p in self.packet_data:
-            print p.protocol_name
-            if p.protocol_name == 'icmp':
-                
-                match = self.check_ip_match(src_ip, dst_ip)
-                if match == True: 
-                    f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
-                    f.write('ICMP Attack Packet') 
-                    f.close()
-                    if mode == 'alert':
-                        print 'ICMP Attack Packet'
-                        alertmsg = 'ICMP Attack Packet'
-                        return alertmsg
+            if hasattr(p, 'protocol_name') is True:
+                print p.protocol_name
+                if p.protocol_name == 'icmp':
+                    
+                    match = self.check_ip_match(src_ip, dst_ip)
+                    if match == True: 
+                        f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
+                        f.write('ICMP Attack Packet') 
+                        f.close()
+                        if mode == 'alert':
+                            print 'ICMP Attack Packet'
+                            alertmsg = 'ICMP Attack Packet'
+                            return alertmsg
      
      
      

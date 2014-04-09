@@ -11,18 +11,19 @@ class ipv4(object):
 
     def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port): 
         for p in self.packet_data:
-            print p.protocol_name
-            if p.protocol_name == 'ipv4':
-                
-                match = self.check_ip_match(src_ip, dst_ip)
-                if match == True: 
-                    f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
-                    f.write('IP Attack Packet') 
-                    f.close()
-                    if mode == 'alert':
-                        print 'IP Attack Packet'
-                        alertmsg = 'IP Attack Packet'
-                        return alertmsg
+            if hasattr(p, 'protocol_name') is True:
+                print p.protocol_name
+                if p.protocol_name == 'ipv4':
+                    
+                    match = self.check_ip_match(src_ip, dst_ip)
+                    if match == True: 
+                        f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
+                        f.write('IP Attack Packet') 
+                        f.close()
+                        if mode == 'alert':
+                            print 'IP Attack Packet'
+                            alertmsg = 'IP Attack Packet'
+                            return alertmsg
      
      
      
