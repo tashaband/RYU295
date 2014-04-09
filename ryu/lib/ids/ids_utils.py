@@ -1,5 +1,6 @@
+from ryu.lib.packet import stream_parser
 
-
+UNPACK_STR = '!%ds'
 
 def get_packet_dst_ip_address(pkt):
     for p in pkt:
@@ -32,3 +33,20 @@ def get_packet_src_port(pkt):
                 p_srcport = p.src_port
                 return p_srcport
     return None
+
+def get_packet_length(pkt):
+    for p in pkt:
+            if p.protocol_name == 'ip':
+                p_length = p.total_length
+                return p_length
+    return 0
+
+def print_packet_data(buf, total_lenth):
+    unpack_str = UNPACK_STR % (total_lenth)
+    pac_len = struct.calcsize(unpack_str)
+    if len(buf) < pac_len:
+            raise stream_parser.StreamParser.TooSmallException(
+                '%d < %d' % (len(buf), pac_len))
+    print 'unpack string : ' , unpack_str
+    data_string = struct.unpack_from(unpack_str, buf)
+    print 'data string : ', data_string
