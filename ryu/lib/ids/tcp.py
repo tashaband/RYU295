@@ -15,22 +15,23 @@ class tcp(object):
 
     def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port): 
         for p in self.packet_data:
-            print p.protocol_name
-            if p.protocol_name == 'tcp':
-                
-                match = self.check_tcp_ip_port_match(src_ip, src_port, dst_ip, dst_port)
-                if match == True: 
-                    f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
-                    f.write('TCP Attack Packet') 
-                    f.close()
-                    length = ids_utils.get_packet_length(self.packet_data)
-                    for p in self.packet_data.protocols:
-                        if hasattr(p, 'protocol_name') is False:
-                            ids_utils.print_packet_data(p, length)
-                    if mode == 'alert':
-                        print 'TCP Attack Packet'
-                        alertmsg = 'TCP Attack Packet'
-                        return alertmsg
+            if hasattr(p, 'protocol_name') is True:
+                print p.protocol_name
+                if p.protocol_name == 'tcp':
+                    
+                    match = self.check_tcp_ip_port_match(src_ip, src_port, dst_ip, dst_port)
+                    if match == True: 
+                        f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')  
+                        f.write('TCP Attack Packet') 
+                        f.close()
+                        length = ids_utils.get_packet_length(self.packet_data)
+                        for p in self.packet_data.protocols:
+                            if hasattr(p, 'protocol_name') is False:
+                                ids_utils.print_packet_data(p, length)
+                        if mode == 'alert':
+                            print 'TCP Attack Packet'
+                            alertmsg = 'TCP Attack Packet'
+                            return alertmsg
      
      
      
