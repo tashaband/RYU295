@@ -48,7 +48,7 @@ def get_packet_length(pkt):
     return 0
 
 def print_packet_data(buf, total_lenth):
-    unpack_str = UNPACK_STR % (total_lenth)
+    unpack_str = UNPACK_STR % (len(buf))
     pac_len = struct.calcsize(unpack_str)
     if len(buf) < pac_len:
             raise stream_parser.StreamParser.TooSmallException(
