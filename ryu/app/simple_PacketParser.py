@@ -58,31 +58,31 @@ class SimplePacketParser(app_manager.RyuApp):
         for p in pkt.protocols:
             if hasattr(p, 'protocol_name') is False:
                 print 'data:', p
-        for p in pkt:
-            print p.protocol_name
-            if p.protocol_name == 'ethernet':
-                print 'ethernet src = ', p.src
-                print 'ethernet dst = ', p.dst
-                print 'ethernet type = ', p.ethertype
-            if p.protocol_name == 'arp':
-                print 'arp src mac = ', p.src_mac
-                print 'arp src ip = ', p.src_ip
-                print 'arp dst mac = ', p.dst_mac
-                print 'arp dst ip = ', p.dst_ip
-                
-            if p.protocol_name == 'ipv4':
-                print 'ipv4 id = ', p.identification
-                print 'ipv4 src ip = ', p.src
-                print 'ipv4 dst ip = ', p.dst
-                print 'ipv4 flags = ', p.flags
-            if p.protocol_name == 'icmp':
-                print 'icmp type = ', p.type
-                print 'icmp code = ', p.code
-                print 'icmp data = ', p.data
-            if p.protocol_name == 'tcp':
-                print 'tcp src port = ', p.src_port
-                print 'tcp dst port = ', p.dst_port
-                print 'tcp options = ', p.option
+            else:
+                print p.protocol_name
+                if p.protocol_name == 'ethernet':
+                    print 'ethernet src = ', p.src
+                    print 'ethernet dst = ', p.dst
+                    print 'ethernet type = ', p.ethertype
+                if p.protocol_name == 'arp':
+                    print 'arp src mac = ', p.src_mac
+                    print 'arp src ip = ', p.src_ip
+                    print 'arp dst mac = ', p.dst_mac
+                    print 'arp dst ip = ', p.dst_ip
+                    
+                if p.protocol_name == 'ipv4':
+                    print 'ipv4 id = ', p.identification
+                    print 'ipv4 src ip = ', p.src
+                    print 'ipv4 dst ip = ', p.dst
+                    print 'ipv4 flags = ', p.flags
+                if p.protocol_name == 'icmp':
+                    print 'icmp type = ', p.type
+                    print 'icmp code = ', p.code
+                    print 'icmp data = ', p.data
+                if p.protocol_name == 'tcp':
+                    print 'tcp src port = ', p.src_port
+                    print 'tcp dst port = ', p.dst_port
+                    print 'tcp options = ', p.option
             
                 
     @handler.set_ev_cls(dpset.EventDP)
