@@ -26,20 +26,20 @@ class tcp(object):
                          length = ids_utils.get_packet_length(self.packet_data)
                          for p in self.packet_data.protocols:
                              if hasattr(p, 'protocol_name') is False:
-                                 print 'Before Call to Print Packet Data in TCP'
+                                 #print 'Before Call to Print Packet Data in TCP'
                                  #ids_utils.print_packet_data(p, length)
                                  pkt_contents=ids_utils.get_packet_data(p,length)
-                                 print pkt_contents
-                                 print pattern
+                                 #print pkt_contents
+                                 #print pattern
                              if pattern !='NONE':
                                  match_content = BoyerMooreStringSearch.BMSearch(pkt_contents,pattern)
                              if match_content == True:
                                  f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')
                                  f.write('TCP Attack Packet')
                                  f.close()
-                                 print 'After Call to Print Packet Data in TCP'
-                             if mode == 'alert':
-                                 print 'TCP Attack Packet'
+                                 #print 'After Call to Print Packet Data in TCP'
+                             if mode == 'alert' and match_content == True:
+                                 #print 'TCP Attack Packet'
                                  alertmsg = 'TCP Attack Packet'
                                  return alertmsg
      
@@ -47,14 +47,14 @@ class tcp(object):
                                 
     def check_tcp_ip_port_match(self,src_ip, src_port, dst_ip, dst_port):
 
-        print 'Print message from tcp.py'
-        print 'packet source', self.src_ip
-        print 'packet dst', self.dst_ip
-        print 'rule source', src_ip
-        print 'rule dst', dst_ip
-        print 'Print Message from tcp.py Ends'
-        if ((src_ip == 'any') or (src_ip == self.src_ip)):
-            if ((dst_ip == 'any') or (dst_ip == self.dst_ip)):
+        #print 'Print message from tcp.py'
+        #print 'packet source', self.src_ip
+        #print 'packet dst', self.dst_ip
+        #print 'rule source', src_ip
+        #print 'rule dst', dst_ip
+        #print 'Print Message from tcp.py Ends'
+        if (('any' in src_ip) or (self.src_ip in src_ip)):
+            if (('any' in dst_ip) or (self.dst_ip in dst_ip)):
                 if ((src_port == 'any') or (src_port == self.src_port)):
                     if ((dst_port == 'any') or (dst_port == self.dst_port)):
                         return True

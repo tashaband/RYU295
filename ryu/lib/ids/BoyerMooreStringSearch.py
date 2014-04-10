@@ -32,9 +32,9 @@ def generateSuffixShift(key):
     
 # Actual Search Algorithm
 def BMSearch(haystack, needle):
-    print haystack
+    #print haystack
     #needle = "Accept"
-    print needle
+    #print needle
     goodSuffix = generateSuffixShift(needle)
     badChar = generateBadCharShift(needle)
     i = 0

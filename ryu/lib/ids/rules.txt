@@ -1,1 +1,2 @@
-alert tcp 10.0.0.2 any 10.0.0.1 any GET
+alert tcp $HOME_NET any 10.0.0.3 any PIPE
+alert icmp any any any any NONE
