@@ -27,7 +27,7 @@ class IDSMonitor(app_manager.RyuApp):
 
     def check_packet(self,msg):
         for rule in self.rules:
-            print rule
+            #print rule
             rule_contents = rule.split()
             if len(rule_contents) < 6:
                 raise Exception("Invalid Alert Rule: Length", len(rule_contents))
@@ -38,8 +38,9 @@ class IDSMonitor(app_manager.RyuApp):
                 sr_port = rule_contents[3]
                 dst_ip = rule_contents[4]
                 dst_port = rule_contents[5]
+                pattern = rule_contents[6]   
                 ids_pkt = protocolcls(msg)
-                alertmsg = ids_pkt.check_packet(alert_type,sr_ip,sr_port, dst_ip, dst_port)
+                alertmsg = ids_pkt.check_packet(alert_type,sr_ip,sr_port, dst_ip, dst_port,pattern)
                 
             if alertmsg:
                 self.send_event_to_observers(AttackAlert(alertmsg,msg))

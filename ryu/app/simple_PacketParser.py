@@ -110,9 +110,9 @@ class SimplePacketParser(app_manager.RyuApp):
             
         self.mac_to_port.setdefault(dpid, {})
 
-        self.logger.info("packet in %s %s %s %s", dpid, src, dst, msg.in_port)
+        #self.logger.info("packet in %s %s %s %s", dpid, src, dst, msg.in_port)
         
-        self.packetParser(msg)
+        #self.packetParser(msg)
         gevent.spawn_later(0, self.ids_monitor.check_packet(msg))
         
         # learn a mac address to avoid FLOOD next time.
@@ -123,12 +123,12 @@ class SimplePacketParser(app_manager.RyuApp):
         else:
             out_port = ofproto.OFPP_FLOOD
 
-        actions = [datapath.ofproto_parser.OFPActionOutput(out_port),
-                   datapath.ofproto_parser.OFPActionOutput(ofproto.OFPP_CONTROLLER)]
+        actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]
+                   #datapath.ofproto_parser.OFPActionOutput(ofproto.OFPP_CONTROLLER)]
 
         # install a flow to avoid packet_in next time
-        if out_port != ofproto.OFPP_FLOOD:
-            self.add_flow(datapath, msg.in_port, dst, actions)
+        #if out_port != ofproto.OFPP_FLOOD:
+           #self.add_flow(datapath, msg.in_port, dst, actions)
 
         out = datapath.ofproto_parser.OFPPacketOut(
             datapath=datapath, buffer_id=msg.buffer_id, in_port=msg.in_port,
@@ -142,9 +142,9 @@ class SimplePacketParser(app_manager.RyuApp):
         msg = ev.data
 
         print '---------------alertmsg:', ''.join(alertmsg)
-        print 'Packet causing alert'
+        #print 'Packet causing alert'
 
-        self.packetParser(msg)
+        #self.packetParser(msg)
 
     @set_ev_cls(ofp_event.EventOFPPortStatus, MAIN_DISPATCHER)
     def _port_status_handler(self, ev):

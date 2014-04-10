@@ -54,5 +54,17 @@ def print_packet_data(buf, total_lenth):
             raise stream_parser.StreamParser.TooSmallException(
                 '%d < %d' % (len(buf), pac_len))
     print 'unpack string : ' , unpack_str
+    print 'Print Message in ids_utils start'
     data_string = struct.unpack_from(unpack_str, buf)
     print 'data string : ', data_string
+   # return data_string
+
+def get_packet_data(buf, total_lenth):
+    unpack_str = UNPACK_STR % (len(buf))
+    pac_len = struct.calcsize(unpack_str)
+    if len(buf) < pac_len:
+            raise stream_parser.StreamParser.TooSmallException(
+                '%d < %d' % (len(buf), pac_len))
+    print 'unpack string : ' , unpack_str
+    data_string = "".join(struct.unpack_from(unpack_str, buf))
+    return data_string 	

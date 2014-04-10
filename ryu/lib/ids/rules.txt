@@ -1,5 +1,1 @@
-alert tcp any any 10.0.0.3 any 
-alert tcp any any 10.0.0.1 any 
-alert tcp any any 10.0.0.2 any 
-alert icmp any any any any 
-alert ip any any any any 
+alert tcp 10.0.0.2 any 10.0.0.1 any GET
