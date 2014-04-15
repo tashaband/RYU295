@@ -33,7 +33,7 @@ class icmp(object):
                                  f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')
                                  f.write('ICMP Attack Packet')
                                  f.close()
-                                 self.writeToDB('ICMP Attack Packet', 'icmp','ICMP Attack Packet',self.src_ip, self.dst_ip, ' ', ' ')
+                                 self.writeToDB("ICMP Attack Packet", "icmp","ICMP Attack Packet",self.src_ip, self.dst_ip)
                                  #print 'After Call to Print Packet Data in ICMP' 
                              if mode == 'alert':
                                  #print 'ICMP Attack Packet'
@@ -52,15 +52,16 @@ class icmp(object):
             if (('any' in dst_ip) or (self.dst_ip in dst_ip)):
                 return True
 
-    def writeToDB(name, protocol, msg, srcip, dstip, srcport, dstport): 
+    def writeToDB(self,name, protocol, msg, srcip, dstip): 
         db = MySQLdb.connect("localhost","testuser","test123","attackdb" )
         cursor = db.cursor()
         try:
             cursor.execute
-            ("""INSERT INTO attacks(name,protocol, message, sourceip, destip, sourceport, destport) 
-            VALUES (%s, %s,%s, %s, %s,%s,%s)""",(name, protocol, msg, srcip, dstip, srcport, dstport))
+            ("""INSERT INTO attacks(name,protocol, message, sourceip, destip) 
+            VALUES (%s, %s,%s, %s, %s)""",(name, protocol, msg, srcip, dstip))
             db.commit()
         except:
             db.rollback()
 
         db.close()        
+
