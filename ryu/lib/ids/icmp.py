@@ -9,14 +9,17 @@ class icmp(object):
         self.packet_data =  packet.Packet(packet_data.data)  
         self.dst_ip = ids_utils.get_packet_dst_ip_address(self.packet_data)
         self.src_ip = ids_utils.get_packet_src_ip_address(self.packet_data)
+        self.rule_type = ids_utils.get_packet_type(self.packet_data)
 
 
-    def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port,pattern): 
+    def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port,pattern,rule_msg,rule_type): 
         for p in self.packet_data:
             if hasattr(p, 'protocol_name') is True:
                 #print p.protocol_name
                 if p.protocol_name == 'icmp':
-                     match = self.check_ip_match(src_ip, dst_ip)
+                     match = self.check_ip_match(src_ip, dst_ip,rule_type)
+		     print 'From ICMP Class : Match'
+		     print match
                      match_content = True
                      if match == True:
                          length = ids_utils.get_packet_length(self.packet_data)
@@ -29,20 +32,21 @@ class icmp(object):
                                  #print pattern
                              if pattern !='NONE':
                                  match_content = BoyerMooreStringSearch.BMSearch(pkt_contents,pattern)
+                                 print match_content 
                              if match_content == True:
                                  f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')
-                                 f.write('ICMP Attack Packet')
+                                 f.write(rule_msg)
                                  f.close()
-                                 self.writeToDB("ICMP Attack Packet", "icmp","ICMP Attack Packet",self.src_ip, self.dst_ip)
+                                 self.writeToDB("ICMP Attack Packet", "icmp",rule_msg,self.src_ip, self.dst_ip)
                                  #print 'After Call to Print Packet Data in ICMP' 
                              if mode == 'alert':
                                  #print 'ICMP Attack Packet'
-                                 alertmsg = 'ICMP Attack Packet'
+                                 alertmsg = rule_msg
                                  return alertmsg
 
      
                                 
-    def check_ip_match(self,src_ip, dst_ip):
+    def check_ip_match(self,src_ip, dst_ip,rule_type):
         #print 'packet source', self.src_ip
         #print 'packet dst', self.dst_ip
         #print 'rule source', src_ip
@@ -50,7 +54,8 @@ class icmp(object):
         #print 'Print Message from ICMP Module'
         if (('any'in src_ip) or (self.src_ip in src_ip)):
             if (('any' in dst_ip) or (self.dst_ip in dst_ip)):
-                return True
+		if(self.rule_type == rule_type):
+                    return True
 
     def writeToDB(self,name, protocol, msg, srcip, dstip): 
         dbcon = mdb.connect("localhost","testuser","test123","attackdb" )

@@ -14,7 +14,7 @@ class tcp(object):
         self.src_port = ids_utils.get_packet_src_port(self.packet_data)
         self.length_data = ids_utils.get_packet_length(self.packet_data)      
 
-    def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port,pattern): 
+    def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port,pattern,rule_msg,rule_type): 
         for p in self.packet_data:
             if hasattr(p, 'protocol_name') is True:
                 #print p.protocol_name
@@ -35,14 +35,14 @@ class tcp(object):
                                  match_content = BoyerMooreStringSearch.BMSearch(pkt_contents,pattern)
                              if match_content == True:
                                  f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')
-                                 f.write('TCP Attack Packet')
+                                 f.write(rule_msg)
                                  f.close()
-                                 self.writeToDB('TCP Attack Packet', 'tcp','TCP Attack Packet', 
+                                 self.writeToDB('TCP Attack Packet', 'tcp',rule_msg, 
                                                 self.src_ip, self.dst_ip, self.src_port, self.dst_port)
                                  #print 'After Call to Print Packet Data in TCP'
                              if mode == 'alert' and match_content == True:
                                  #print 'TCP Attack Packet'
-                                 alertmsg = 'TCP Attack Packet'
+                                 alertmsg = rule_msg
                                  return alertmsg
      
      

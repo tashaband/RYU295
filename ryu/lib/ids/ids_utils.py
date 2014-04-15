@@ -47,6 +47,18 @@ def get_packet_length(pkt):
                     return p_length
     return 0
 
+def get_packet_type(pkt):
+    for p in pkt:
+            if hasattr(p, 'protocol_name') is True:
+                if p.protocol_name == 'icmp':
+                    p_type = str(p.type)
+ 		    print 'Type From ids utils'
+		    print p_type
+                    return p_type
+    return None
+
+
+
 def print_packet_data(buf, total_lenth):
     unpack_str = UNPACK_STR % (len(buf))
     pac_len = struct.calcsize(unpack_str)
