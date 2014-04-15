@@ -1,7 +1,7 @@
 from ryu.lib.packet import packet
 from . import ids_utils
 from . import BoyerMooreStringSearch
-import MySQLdb
+import MySQLdb as mdb
 
 class icmp(object):
     
@@ -53,15 +53,13 @@ class icmp(object):
                 return True
 
     def writeToDB(self,name, protocol, msg, srcip, dstip): 
-        db = MySQLdb.connect("localhost","testuser","test123","attackdb" )
-        cursor = db.cursor()
-        try:
-            cursor.execute
-            ("""INSERT INTO attacks(name,protocol, message, sourceip, destip) 
-            VALUES (%s, %s,%s, %s, %s)""",(name, protocol, msg, srcip, dstip))
-            db.commit()
-        except:
-            db.rollback()
-
-        db.close()        
+        dbcon = mdb.connect("localhost","testuser","test123","attackdb" )
+        with dbcon:
+	    cursor = dbcon.cursor()
+       	    try:
+               cursor.execute("INSERT INTO attacks(name,protocol, message, sourceip, destip)VALUES (%s, %s,%s, %s, %s)",(name, protocol, msg, srcip, dstip))
+               dbcon.commit()
+            except:
+               dbcon.rollback()
+       
 

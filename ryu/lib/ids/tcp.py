@@ -2,7 +2,7 @@ from ryu.lib.packet import packet
 from ryu.lib.packet import ipv4
 from . import ids_utils
 from . import BoyerMooreStringSearch
-import MySQLdb
+import MySQLdb as mdb
 
 class tcp(object):
     
@@ -61,15 +61,13 @@ class tcp(object):
                     if ((dst_port == 'any') or (dst_port == self.dst_port)):
                         return True
     
-    def writeToDB(name, protocol, msg, srcip, dstip, srcport, dstport): 
-        db = MySQLdb.connect("localhost","testuser","test123","attackdb" )
-        cursor = db.cursor()
+    def writeToDB(self,name, protocol, msg, srcip, dstip, srcport, dstport): 
+        dbcon = mdb.connect("localhost","testuser","test123","attackdb" )
+        cursor = dbcon.cursor()
         try:
-            cursor.execute
-            ("""INSERT INTO attacks(name,protocol, message, sourceip, destip, sourceport, destport) 
-            VALUES (%s, %s,%s, %s, %s,%s,%s)""",(name, protocol, msg, srcip, dstip, srcport, dstport))
-            db.commit()
+            cursor.execute("INSERT INTO attacks(name,protocol, message, sourceip, destip, sourceport, destport)VALUES (%s, %s,%s, %s, %s,%s,%s)",(name, protocol, msg, srcip, dstip, srcport, dstport))
+            dbcon.commit()
         except:
-            db.rollback()
+            dbcon.rollback()
 
-        db.close()
+      
