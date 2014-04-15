@@ -2,7 +2,7 @@ from ryu.lib.packet import packet
 from ryu.lib.packet import ipv4
 from . import ids_utils
 from . import BoyerMooreStringSearch
-
+import MySQLdb
 
 class tcp(object):
     
@@ -37,6 +37,8 @@ class tcp(object):
                                  f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')
                                  f.write('TCP Attack Packet')
                                  f.close()
+                                 self.writeToDB('TCP Attack Packet', 'tcp','TCP Attack Packet', 
+                                                self.src_ip, self.dst_ip, self.src_port, self.dst_port)
                                  #print 'After Call to Print Packet Data in TCP'
                              if mode == 'alert' and match_content == True:
                                  #print 'TCP Attack Packet'
@@ -59,4 +61,15 @@ class tcp(object):
                     if ((dst_port == 'any') or (dst_port == self.dst_port)):
                         return True
     
-        
+    def writeToDB(name, protocol, msg, srcip, dstip, srcport, dstport): 
+        db = MySQLdb.connect("localhost","testuser","test123","attackdb" )
+        cursor = db.cursor()
+        try:
+            cursor.execute
+            ("""INSERT INTO attacks(name,protocol, message, sourceip, destip, sourceport, destport) 
+            VALUES (%s, %s,%s, %s, %s,%s,%s)""",(name, protocol, msg, srcip, dstip, srcport, dstport))
+            db.commit()
+        except:
+            db.rollback()
+
+        db.close()
