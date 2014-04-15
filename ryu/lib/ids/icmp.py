@@ -33,8 +33,7 @@ class icmp(object):
                                  f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')
                                  f.write('ICMP Attack Packet')
                                  f.close()
-                                 self.writeToDB('TCP Attack Packet', 'tcp','TCP Attack Packet', 
-                                                self.src_ip, self.dst_ip, "", "")
+                                 self.writeToDB('ICMP Attack Packet', 'icmp','ICMP Attack Packet',self.src_ip, self.dst_ip, ' ', ' ')
                                  #print 'After Call to Print Packet Data in ICMP' 
                              if mode == 'alert':
                                  #print 'ICMP Attack Packet'
