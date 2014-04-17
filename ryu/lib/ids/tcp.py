@@ -24,18 +24,20 @@ class tcp(object):
                      pkt_contents = ""  
                      if match == True:
                          length = ids_utils.get_packet_length(self.packet_data)
+			 print 'Length= ', length
                          for p in self.packet_data.protocols:
                              if hasattr(p, 'protocol_name') is False:
-                                 #print 'Before Call to Print Packet Data in TCP'
-                                 #ids_utils.print_packet_data(p, length)
+                                 print 'Value of P in tcp.py ', p
+                                 ids_utils.print_packet_data(p, length)
                                  pkt_contents=ids_utils.get_packet_data(p,length)
-                                 #print pkt_contents
+                                 print 'pkt_contents ', pkt_contents
                                  #print pattern
                              if pattern !='NONE':
                                  match_content = BoyerMooreStringSearch.BMSearch(pkt_contents,pattern)
                              if match_content == True:
                                  f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')
-                                 f.write(rule_msg)
+ 	                         f.write("\n")
+				 f.write(rule_msg)
                                  f.close()
                                  self.writeToDB('TCP Attack Packet', 'tcp',rule_msg, 
                                                 self.src_ip, self.dst_ip, self.src_port, self.dst_port)

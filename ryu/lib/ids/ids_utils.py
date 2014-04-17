@@ -42,7 +42,8 @@ def get_packet_src_port(pkt):
 def get_packet_length(pkt):
     for p in pkt:
             if hasattr(p, 'protocol_name') is True:
-                if p.protocol_name == 'ip':
+                #if p.protocol_name == 'ip':
+                if p.protocol_name == 'ipv4':
                     p_length = p.total_length
                     return p_length
     return 0
@@ -52,14 +53,32 @@ def get_packet_type(pkt):
             if hasattr(p, 'protocol_name') is True:
                 if p.protocol_name == 'icmp':
                     p_type = str(p.type)
- 		    print 'Type From ids utils'
-		    print p_type
+ 		    #print 'Type From ids utils'
+		    #print p_type
                     return p_type
     return None
 
+def get_icmp_packet_data(buf):
+    #for p in pkt:
+           # if hasattr(p, 'protocol_name') is True:
+               # if p.protocol_name == 'icmp':
+			#buf = p.data
+		    	unpack_str = UNPACK_STR % (len(buf))
+		    	pac_len = struct.calcsize(unpack_str)
+    		    	if len(buf) < pac_len:
+           			 raise stream_parser.StreamParser.TooSmallException(
+                			'%d < %d' % (len(buf), pac_len))
+    		   	#print 'unpack string : ' , unpack_str
+    		    	data_string = "".join(struct.unpack_from(unpack_str, buf))
+                    	#print 'Data From ids utils'
+                        #print data_string
+                  	return data_string
+ 		
+			#return None
 
 
 def print_packet_data(buf, total_lenth):
+    print 'Contents of Buffer in Print_Packet_data ', str(buf)
     unpack_str = UNPACK_STR % (len(buf))
     pac_len = struct.calcsize(unpack_str)
     if len(buf) < pac_len:
@@ -77,6 +96,6 @@ def get_packet_data(buf, total_lenth):
     if len(buf) < pac_len:
             raise stream_parser.StreamParser.TooSmallException(
                 '%d < %d' % (len(buf), pac_len))
-    print 'unpack string : ' , unpack_str
+    #print 'unpack string : ' , unpack_str
     data_string = "".join(struct.unpack_from(unpack_str, buf))
     return data_string 	
