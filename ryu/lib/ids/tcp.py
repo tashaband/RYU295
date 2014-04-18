@@ -34,7 +34,7 @@ class tcp(object):
                              if pattern !='NONE':
                                  match_content = BoyerMooreStringSearch.BMSearch(pkt_contents,pattern)
                              if match_content == True:
-                                 f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')
+                                 f = open('/home/ubuntu/RYU295/ryu/lib/ids/log.txt', 'a')
                                  f.write(rule_msg)
                                  f.close()
                                  self.writeToDB('TCP Attack Packet', 'tcp',rule_msg, 

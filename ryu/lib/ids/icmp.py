@@ -34,7 +34,7 @@ class icmp(object):
                                  match_content = BoyerMooreStringSearch.BMSearch(pkt_contents,pattern)
                                  print match_content 
                              if match_content == True:
-                                 f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')
+                                 f = open('/home/ubuntu/RYU295/ryu/lib/ids/log.txt', 'a')
                                  f.write(rule_msg)
                                  f.close()
                                  self.writeToDB("ICMP Attack Packet", "icmp",rule_msg,self.src_ip, self.dst_ip)
