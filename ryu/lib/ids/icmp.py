@@ -10,6 +10,8 @@ class icmp(object):
         self.dst_ip = ids_utils.get_packet_dst_ip_address(self.packet_data)
         self.src_ip = ids_utils.get_packet_src_ip_address(self.packet_data)
         self.rule_type = ids_utils.get_packet_type(self.packet_data)
+        self.src_port = ids_utils.get_packet_src_port(self.packet_data)
+        self.dst_port = ids_utils.get_packet_dst_port(self.packet_data)
 
 
     def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port,pattern,rule_msg,rule_type): 
@@ -17,54 +19,70 @@ class icmp(object):
             if hasattr(p, 'protocol_name') is True:
                 #print p.protocol_name
                 if p.protocol_name == 'icmp':
+                     print 'p.data: ', p.data
+                     #print p.data
                      match = self.check_ip_match(src_ip, dst_ip,rule_type)
-		     print 'From ICMP Class : Match'
-		     print match
-                     match_content = True
-                     if match == True:
+		     #print 'From ICMP Class : Match'
+		     #print match
+     		     pkt_contents=""
+		     if match == True:
                          length = ids_utils.get_packet_length(self.packet_data)
-                         for p in self.packet_data.protocols:
-                             if hasattr(p, 'protocol_name') is False:
-                                 #print 'Before Call to Print Packet Data in ICMP'
-                                 #ids_utils.print_packet_data(p, length)
-                                 pkt_contents=ids_utils.get_packet_data(p,length)
-                                 #print pkt_contents
-                                 #print pattern
-                             if pattern !='NONE':
+                         print 'length: '
+                         print length
+                         #for p in self.packet_data.protocols:
+                         #for p in self.packet_data:
+                             #print 'p: '
+                             #print p
+                             #if hasattr(p, 'protocol_name') is False:
+                             #if p.protocol_name == 'ipv4':
+                         #print 'Before Call to Print Packet Data in ICMP'
+                               #ids_utils.print_packet_data(str(p), length)
+                         ids_utils.print_packet_data(str(p.data), length)
+                                 #pkt_contents=ids_utils.get_packet_data(str(p),length)
+                         pkt_contents = ids_utils.get_packet_data(str(p.data),length) 
+                         #print pkt_contents
+                         #print 'Pattern: '
+                         #print pattern
+                         if pattern !='NONE':
                                  match_content = BoyerMooreStringSearch.BMSearch(pkt_contents,pattern)
-                                 print match_content 
-                             if match_content == True:
+                         #print 'match_content: '
+                         #print match_content
+                         if match_content == True:
                                  f = open('/home/ubuntu/RYU295/ryu/lib/ids/log.txt', 'a')
-                                 f.write(rule_msg)
+                                 f.write("\n")
+				 f.write(rule_msg)
                                  f.close()
-                                 self.writeToDB("ICMP Attack Packet", "icmp",rule_msg,self.src_ip, self.dst_ip)
-                                 #print 'After Call to Print Packet Data in ICMP' 
-                             if mode == 'alert':
-                                 #print 'ICMP Attack Packet'
+                                 self.writeToDB('ICMP Attack Packet', 'icmp',rule_msg, 
+                                                self.src_ip, self.dst_ip, self.src_port, self.dst_port)
+                                 #print 'After Call to Print Packet Data in TCP'
+                         if mode == 'alert' and match_content == True:
+                                 #print 'TCP Attack Packet'
                                  alertmsg = rule_msg
-                                 return alertmsg
-
-     
+                                 return alertmsg		
                                 
     def check_ip_match(self,src_ip, dst_ip,rule_type):
         #print 'packet source', self.src_ip
         #print 'packet dst', self.dst_ip
+        #print 'packet rule ', self.rule_type
         #print 'rule source', src_ip
         #print 'rule dst', dst_ip
+        #print 'rule type ', rule_type
         #print 'Print Message from ICMP Module'
         if (('any'in src_ip) or (self.src_ip in src_ip)):
             if (('any' in dst_ip) or (self.dst_ip in dst_ip)):
 		if(self.rule_type == rule_type):
                     return True
 
-    def writeToDB(self,name, protocol, msg, srcip, dstip): 
+    def writeToDB(self,name, protocol, msg, srcip, dstip,srcport, dstport): 
         dbcon = mdb.connect("localhost","testuser","test123","attackdb" )
-        with dbcon:
-	    cursor = dbcon.cursor()
-       	    try:
-               cursor.execute("INSERT INTO attacks(name,protocol, message, sourceip, destip)VALUES (%s, %s,%s, %s, %s)",(name, protocol, msg, srcip, dstip))
+        #with dbcon:
+	cursor = dbcon.cursor()
+       	try:
+	       #print 'In Try Block of WriteToDB'	
+               cursor.execute("INSERT INTO attacks(name,protocol, message, sourceip, destip, sourceport, destport)VALUES (%s, %s,%s, %s, %s, %s, %s)",(name, protocol, msg, srcip, dstip, srcport, dstport))
                dbcon.commit()
-            except:
+        except:
+	       #print 'In Rollback Block'	
                dbcon.rollback()
        
 

@@ -1,0 +1,10 @@
+alert tcp $HOME_NET any $HOME_NET any qazwsx.hsq MALWARE-BACKDOOR-QAZ-Worm-Client-Login-access NONE 
+alert tcp $HOME_NET any $HOME_NET any WHATISIT MALWARE-BACKDOOR-Infector.1.x NONE
+alert tcp $HOME_NET any $HOME_NET any host MALWARE-BACKDOOR-HackAttack-1.20-Connect NONE
+alert tcp $HOME_NET any $HOME_NET any Remote|3A|  MALWARE-BACKDOOR-SatansBackdoor.2.0.Beta NONE
+alert tcp $HOME_NET any $HOME_NET any USER PROTOCOL-FTP-ADMw0rm-ftp-login-attempt NONE
+alert tcp $HOME_NET any $HOME_NET any NetSphere MALWARE-BACKDOOR-NetSphere-access NONE
+alert tcp $HOME_NET any $HOME_NET any GateCrasher MALWARE-BACKDOOR-GateCrasher NONE
+alert tcp $HOME_NET any $HOME_NET any c|3A5C| MALWARE-BACKDOOR-BackConstruction-2.1-Connection NONE
+alert tcp $HOME_NET any $HOME_NET any FTPON MALWARE-BACKDOOR-BackConstruction-2.1-Client-FTP-Open-Request NONE
+alert tcp $HOME_NET any $HOME_NET any activate MALWARE-BACKDOOR-Matrix-2.0-Client-connect NONE

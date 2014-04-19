@@ -29,14 +29,15 @@ class IDSMonitor(app_manager.RyuApp):
 
     def check_packet(self,msg):
         for rule in self.rules:
+            #print 'rule: '
             #print rule
             rule_contents = rule.split()
             if len(rule_contents) < 6:
                 raise Exception("Invalid Alert Rule: Length", len(rule_contents))
             else:
                 protocolcls = self.protocol_types.get(rule_contents[1])
-		print 'rule_contents[1] from IDS Monitor'
-	 	print rule_contents[1]
+		#print 'rule_contents[1] from IDS Monitor'
+	 	#print rule_contents[1]
                 alert_type = rule_contents[0]
                 var_sr_ip = rule_contents[2]
                 var_dst_ip = rule_contents[4]
@@ -71,16 +72,18 @@ class IDSMonitor(app_manager.RyuApp):
 
                 dst_port = rule_contents[5]
                 pattern = rule_contents[6]
-                print 'From IDS_Monitor'
-	        print pattern
+                #print 'From IDS_Monitor'
+	        #print pattern
                 rule_msg = rule_contents[7]
                 rule_type = rule_contents[8] 
-		print 'From IDS Monitor'
-		print rule_type
+		#print 'From IDS Monitor'
+		#print rule_type
                 #print pattern  
                 ids_pkt = protocolcls(msg)
                 #alertmsg = ids_pkt.check_packet(alert_type,sr_ip,sr_port, dst_ip, dst_port,pattern)
-                alertmsg = ids_pkt.check_packet(alert_type,sr_ip_addr,sr_port, dst_ip_addr, dst_port,pattern,rule_msg,rule_type)
+                alertmsg = ids_pkt.check_packet(alert_type,sr_ip_addr,sr_port, dst_ip_addr, dst_port,pattern,rule_msg,str(rule_type))
+                #print 'alertmsg in IDS Monitor: '
+                #print alertmsg
 
             if alertmsg:
                 self.send_event_to_observers(AttackAlert(alertmsg,msg))
