@@ -120,7 +120,7 @@ class SimplePacketParser(app_manager.RyuApp):
         #self.logger.info("packet in %s %s %s %s", dpid, src, dst, msg.in_port)
         
         #self.packetParser(msg)
-        gevent.spawn_later(0, self.ids_monitor.check_packet(msg))
+        self.ids_monitor.check_packet(msg)
         
         # learn a mac address to avoid FLOOD next time.
         self.mac_to_port[dpid][src] = msg.in_port
