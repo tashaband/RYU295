@@ -36,16 +36,17 @@ background-color:#EAF2D3;
 </head>
 
 <body>
-<p>The Attacks caught by IDS-controller are as follows:</p>
+<p>The Packets received by IDS-controller are as follows:</p>
 <table border="1" id= "attacks-list">
   <tr>
-    <th>Attack Name</th>
     <th>Protocol</th>
-    <th>Message</th>
-    <th>Source Ip Address</th>
+    <th>Source MAC Address</th>
+    <th>Destination MAC Address</th>
+    <th>Source IP Address</th>
     <th>Source Port</th>
     <th>Destination IP Address</th>
     <th>Destination Port</th>
+    <th>Options</th>
   </tr>
 %for row in rows:
   <tr>
@@ -56,6 +57,7 @@ background-color:#EAF2D3;
     <td>{{row[6]}}</td>
     <td>{{row[5]}}</td>
     <td>{{row[7]}}</td>
+    <td>{{row[8]}}</td>
   %end
   </tr>
 %end
