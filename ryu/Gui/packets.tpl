@@ -41,9 +41,9 @@ background-color:#EAF2D3;
   <tr>
     <th>Protocol</th>
     <th>Source MAC Address</th>
-    <th>Destination MAC Address</th>
     <th>Source IP Address</th>
     <th>Source Port</th>
+    <th>Destination MAC Address</th>
     <th>Destination IP Address</th>
     <th>Destination Port</th>
     <th>Options</th>
@@ -52,11 +52,11 @@ background-color:#EAF2D3;
   <tr>
     <td>{{row[1]}}</td>
     <td>{{row[2]}}</td>
-    <td>{{row[3]}}</td>
     <td>{{row[4]}}</td>
-    <td>{{row[6]}}</td>
-    <td>{{row[5]}}</td>
     <td>{{row[7]}}</td>
+    <td>{{row[3]}}</td>
+    <td>{{row[5]}}</td>
+    <td>{{row[6]}}</td>
     <td>{{row[8]}}</td>
   %end
   </tr>
