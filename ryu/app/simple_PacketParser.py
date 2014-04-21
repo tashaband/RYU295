@@ -61,29 +61,36 @@ class SimplePacketParser(app_manager.RyuApp):
             else:
                 print p.protocol_name
                 if p.protocol_name == 'ethernet':
-                    print 'ethernet src = ', p.src
-                    print 'ethernet dst = ', p.dst
-                    print 'ethernet type = ', p.ethertype
-                if p.protocol_name == 'arp':
-                    print 'arp src mac = ', p.src_mac
-                    print 'arp src ip = ', p.src_ip
-                    print 'arp dst mac = ', p.dst_mac
-                    print 'arp dst ip = ', p.dst_ip
+#                     print 'ethernet src = ', p.src
+#                     print 'ethernet dst = ', p.dst
+#                     print 'ethernet type = ', p.ethertype
+                      src_mac = p.src
+                      dst_mac = p.dst  
                     
                 if p.protocol_name == 'ipv4':
-                    print 'ipv4 id = ', p.identification
-                    print 'ipv4 src ip = ', p.src
-                    print 'ipv4 dst ip = ', p.dst
-                    print 'ipv4 flags = ', p.flags
+#                     print 'ipv4 id = ', p.identification
+#                     print 'ipv4 src ip = ', p.src
+#                     print 'ipv4 dst ip = ', p.dst
+#                     print 'ipv4 flags = ', p.flags
+                      src_ip = p.src
+                      dst_ip = p.dst
+                      ip_flags = ('IP flags = ', p.flags)
+                      self.writeToDB('IP', src_mac, dst_mac, src_ip, dst_ip, None, None, ip_flags)
                 if p.protocol_name == 'icmp':
-                    print 'icmp type = ', p.type
-                    print 'icmp code = ', p.code
-                    print 'icmp data = ', p.data
+#                     print 'icmp type = ', p.type
+#                     print 'icmp code = ', p.code
+#                     print 'icmp data = ', p.data
+                      icmp_type = 'ICMP TYPE = ', p.type
+                      self.writeToDB('ICMP', src_mac, dst_mac, src_ip, dst_ip, None, None, icmp_type)
                 if p.protocol_name == 'tcp':
-                    print 'tcp src port = ', p.src_port
-                    print 'tcp dst port = ', p.dst_port
-                    print 'tcp options = ', p.option
-            
+#                     print 'tcp src port = ', p.src_port
+#                     print 'tcp dst port = ', p.dst_port
+#                     print 'tcp options = ', p.option
+                    tcp_options = 'TCP OPTIONS = ', p.option
+                    self.writeToDB('TCP', src_mac, dst_mac, src_ip, dst_ip, None, None,tcp_options)
+                if p.protocol_name == 'udp':
+
+                    self.writeToDB('TCP', src_mac, dst_mac, src_ip, dst_ip, None, None,None)
                 
     @handler.set_ev_cls(dpset.EventDP)
     def dp_handler(self, ev):
@@ -161,3 +168,12 @@ class SimplePacketParser(app_manager.RyuApp):
             self.logger.info("port modified %s", port_no)
         else:
             self.logger.info("Illeagal port state %s %s", port_no, reason)
+
+    def writeToDB(self, protocol, srcmac, dstmac, srcip, dstip, srcport, dstport, options): 
+        dbcon = mdb.connect("localhost","testuser","test123","attackdb" )
+        cursor = dbcon.cursor()
+        try:
+            cursor.execute("INSERT INTO packets(protocol,sourcemac, destmac, sourceip, destip, sourceport, destport, options)VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",(protocol, srcmac, dstmac, srcip, dstip, srcport, dstport, options))
+            dbcon.commit()
+        except:
+            dbcon.rollback()
