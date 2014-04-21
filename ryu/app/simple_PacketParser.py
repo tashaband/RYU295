@@ -116,7 +116,7 @@ class SimplePacketParser(app_manager.RyuApp):
         
         #self.packetParser(msg)
         if reason == ofproto_v1_0.OFPR_ACTION:
-		gevent.spawn_later(0, self.ids_monitor.check_packet(msg))
+                self.ids_monitor.check_packet(msg)
         
         # learn a mac address to avoid FLOOD next time.
         self.mac_to_port[dpid][src] = msg.in_port

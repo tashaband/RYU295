@@ -7,4 +7,5 @@ alert tcp $HOME_NET any $HOME_NET any NetSphere MALWARE-BACKDOOR-NetSphere-acces
 alert tcp $HOME_NET any $HOME_NET any GateCrasher MALWARE-BACKDOOR-GateCrasher NONE
 alert tcp $HOME_NET any $HOME_NET any c|3A5C| MALWARE-BACKDOOR-BackConstruction-2.1-Connection NONE
 alert tcp $HOME_NET any $HOME_NET any FTPON MALWARE-BACKDOOR-BackConstruction-2.1-Client-FTP-Open-Request NONE
+alert tcp any any any any GET HTTP-ATTACK NONE
 alert tcp $HOME_NET any $HOME_NET any activate MALWARE-BACKDOOR-Matrix-2.0-Client-connect NONE

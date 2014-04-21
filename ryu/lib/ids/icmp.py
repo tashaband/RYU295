@@ -48,7 +48,7 @@ class icmp(object):
                          #print 'match_content: '
                          #print match_content
                          if match_content == True:
-                                 f = open('/home/mininet/RYU295/ryu/lib/ids/log.txt', 'a')
+                                 f = open('/home/ubuntu/RYU295/ryu/lib/ids/log.txt', 'a')
                                  f.write("\n")
 				 f.write(rule_msg)
                                  f.close()
