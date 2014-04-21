@@ -61,36 +61,29 @@ class SimplePacketParser(app_manager.RyuApp):
             else:
                 print p.protocol_name
                 if p.protocol_name == 'ethernet':
-#                     print 'ethernet src = ', p.src
-#                     print 'ethernet dst = ', p.dst
-#                     print 'ethernet type = ', p.ethertype
-                      src_mac = p.src
-                      dst_mac = p.dst  
+                    print 'ethernet src = ', p.src
+                    print 'ethernet dst = ', p.dst
+                    print 'ethernet type = ', p.ethertype
+                if p.protocol_name == 'arp':
+                    print 'arp src mac = ', p.src_mac
+                    print 'arp src ip = ', p.src_ip
+                    print 'arp dst mac = ', p.dst_mac
+                    print 'arp dst ip = ', p.dst_ip
                     
                 if p.protocol_name == 'ipv4':
-#                     print 'ipv4 id = ', p.identification
-#                     print 'ipv4 src ip = ', p.src
-#                     print 'ipv4 dst ip = ', p.dst
-#                     print 'ipv4 flags = ', p.flags
-                      src_ip = p.src
-                      dst_ip = p.dst
-                      ip_flags = ('IP flags = ', p.flags)
-                      self.writeToDB('IP', src_mac, dst_mac, src_ip, dst_ip, None, None, ip_flags)
+                    print 'ipv4 id = ', p.identification
+                    print 'ipv4 src ip = ', p.src
+                    print 'ipv4 dst ip = ', p.dst
+                    print 'ipv4 flags = ', p.flags
                 if p.protocol_name == 'icmp':
-#                     print 'icmp type = ', p.type
-#                     print 'icmp code = ', p.code
-#                     print 'icmp data = ', p.data
-                      icmp_type = 'ICMP TYPE = ', p.type
-                      self.writeToDB('ICMP', src_mac, dst_mac, src_ip, dst_ip, None, None, icmp_type)
+                    print 'icmp type = ', p.type
+                    print 'icmp code = ', p.code
+                    print 'icmp data = ', p.data
                 if p.protocol_name == 'tcp':
-#                     print 'tcp src port = ', p.src_port
-#                     print 'tcp dst port = ', p.dst_port
-#                     print 'tcp options = ', p.option
-                    tcp_options = 'TCP OPTIONS = ', p.option
-                    self.writeToDB('TCP', src_mac, dst_mac, src_ip, dst_ip, None, None,tcp_options)
-                if p.protocol_name == 'udp':
-
-                    self.writeToDB('TCP', src_mac, dst_mac, src_ip, dst_ip, None, None,None)
+                    print 'tcp src port = ', p.src_port
+                    print 'tcp dst port = ', p.dst_port
+                    print 'tcp options = ', p.option
+            
                 
     @handler.set_ev_cls(dpset.EventDP)
     def dp_handler(self, ev):
@@ -103,8 +96,6 @@ class SimplePacketParser(app_manager.RyuApp):
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
         msg = ev.msg
-	reason = msg.reason
-	print 'Reason in Simple Packet Parser ',reason
         datapath = msg.datapath
         ofproto = datapath.ofproto
 
@@ -122,8 +113,7 @@ class SimplePacketParser(app_manager.RyuApp):
         #self.logger.info("packet in %s %s %s %s", dpid, src, dst, msg.in_port)
         
         #self.packetParser(msg)
-        if reason == ofproto_v1_0.OFPR_ACTION:
-                self.ids_monitor.check_packet(msg)
+        gevent.spawn_later(0, self.ids_monitor.check_packet(msg))
         
         # learn a mac address to avoid FLOOD next time.
         self.mac_to_port[dpid][src] = msg.in_port
@@ -133,18 +123,17 @@ class SimplePacketParser(app_manager.RyuApp):
         else:
             out_port = ofproto.OFPP_FLOOD
 
-        actions = [datapath.ofproto_parser.OFPActionOutput(out_port),
-                   datapath.ofproto_parser.OFPActionOutput(ofproto.OFPP_CONTROLLER)]
+        actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]
+                   #datapath.ofproto_parser.OFPActionOutput(ofproto.OFPP_CONTROLLER)]
 
-        #install a flow to avoid packet_in next time
-        if out_port != ofproto.OFPP_FLOOD:
-           self.add_flow(datapath, msg.in_port, dst, actions)
+        # install a flow to avoid packet_in next time
+        #if out_port != ofproto.OFPP_FLOOD:
+           #self.add_flow(datapath, msg.in_port, dst, actions)
 
-        if reason != ofproto_v1_0.OFPR_ACTION:
-		out = datapath.ofproto_parser.OFPPacketOut(
-            	      datapath=datapath, buffer_id=msg.buffer_id, in_port=msg.in_port,
-            	      actions=actions)
-                datapath.send_msg(out)
+        out = datapath.ofproto_parser.OFPPacketOut(
+            datapath=datapath, buffer_id=msg.buffer_id, in_port=msg.in_port,
+            actions=actions)
+        datapath.send_msg(out)
 
 
     @set_ev_cls(ids_monitor.AttackAlert)
@@ -172,12 +161,3 @@ class SimplePacketParser(app_manager.RyuApp):
             self.logger.info("port modified %s", port_no)
         else:
             self.logger.info("Illeagal port state %s %s", port_no, reason)
-
-    def writeToDB(self, protocol, srcmac, dstmac, srcip, dstip, srcport, dstport, options): 
-        dbcon = mdb.connect("localhost","testuser","test123","attackdb" )
-        cursor = dbcon.cursor()
-        try:
-            cursor.execute("INSERT INTO packets(protocol,sourcemac, destmac, sourceip, destip, sourceport, destport, options)VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",(protocol, srcmac, dstmac, srcip, dstip, srcport, dstport, options))
-            dbcon.commit()
-        except:
-            dbcon.rollback()
