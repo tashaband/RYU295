@@ -96,8 +96,6 @@ class SimplePacketParser(app_manager.RyuApp):
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
         msg = ev.msg
-	reason = msg.reason
-	print 'Reason in Simple Packet Parser ',reason
         datapath = msg.datapath
         ofproto = datapath.ofproto
 
@@ -115,8 +113,7 @@ class SimplePacketParser(app_manager.RyuApp):
         #self.logger.info("packet in %s %s %s %s", dpid, src, dst, msg.in_port)
         
         #self.packetParser(msg)
-        if reason == ofproto_v1_0.OFPR_ACTION:
-		gevent.spawn_later(0, self.ids_monitor.check_packet(msg))
+        gevent.spawn_later(0, self.ids_monitor.check_packet(msg))
         
         # learn a mac address to avoid FLOOD next time.
         self.mac_to_port[dpid][src] = msg.in_port
@@ -126,18 +123,17 @@ class SimplePacketParser(app_manager.RyuApp):
         else:
             out_port = ofproto.OFPP_FLOOD
 
-        actions = [datapath.ofproto_parser.OFPActionOutput(out_port),
-                   datapath.ofproto_parser.OFPActionOutput(ofproto.OFPP_CONTROLLER)]
+        actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]
+                   #datapath.ofproto_parser.OFPActionOutput(ofproto.OFPP_CONTROLLER)]
 
-        #install a flow to avoid packet_in next time
-        if out_port != ofproto.OFPP_FLOOD:
-           self.add_flow(datapath, msg.in_port, dst, actions)
+        # install a flow to avoid packet_in next time
+        #if out_port != ofproto.OFPP_FLOOD:
+           #self.add_flow(datapath, msg.in_port, dst, actions)
 
-        if reason != ofproto_v1_0.OFPR_ACTION:
-		out = datapath.ofproto_parser.OFPPacketOut(
-            	      datapath=datapath, buffer_id=msg.buffer_id, in_port=msg.in_port,
-            	      actions=actions)
-                datapath.send_msg(out)
+        out = datapath.ofproto_parser.OFPPacketOut(
+            datapath=datapath, buffer_id=msg.buffer_id, in_port=msg.in_port,
+            actions=actions)
+        datapath.send_msg(out)
 
 
     @set_ev_cls(ids_monitor.AttackAlert)
