@@ -75,7 +75,7 @@
 			background: #C74451;
 			color: #fff;
 			text-shadow: none !important;
-                        border-radius: 5px;
+            border-radius: 5px;
 		}
 		
 		#banner nav li:first-child a {
@@ -102,6 +102,14 @@
 			-moz-border-radius: 10px;
 			-webkit-border-radius: 10px;
 		}
+		
+		.entry-content{
+            width:1000px;
+            height:500px;
+            background-color:#F3F3F3;
+            overflow-y:scroll;
+            float:left;
+        }
 				
 		#attacks-list td, #attacks-list th 
 		{

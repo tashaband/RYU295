@@ -32,6 +32,7 @@
 				<div class="entry-content">
 					%for row in rows:
 						<p>{{row}}</p>
+					%end
 				</div><!-- /.entry-content -->
 			</article>
 		</section>
