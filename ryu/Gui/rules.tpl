@@ -18,43 +18,22 @@
 			<li class="active"><a href="/">Traffic</a></li>
 	 
 			<li><a href="/attacks">Attacks</a></li>
-			<li><a href="/rules">Rules</a></li>
-			<li><a href="#">Visualization</a></li>
+			<li><a href="#">Visulaization</a></li>
 		</ul></nav>
 	 
 	</header><!-- /#banner -->	
 	
 	<section id="content" class="body">
 		<header>
-			<h2 class="entry-title">The Packets received by IDS-controller are as follows:</h2>
- 
+			<h2 class="entry-title">The IDS rules to catch attacks</h2>
 		</header>
 		<section>
-			<table border="1" id= "attacks-list">
-				  <tr>
-				    <th>Protocol</th>
-				    <th>Source MAC Address</th>
-				    <th>Source Ip Address</th>
-				    <th>Source Port</th>
-				    <th>Destination MAC Address</th>
-				    <th>Destination IP Address</th>
-				    <th>Destination Port</th>
-				    <th>Options</th>
-				  </tr>
-				%for row in rows:
-				  <tr>
-				    <td>{{row[1]}}</td>
-				    <td>{{row[2]}}</td>
-				    <td>{{row[4]}}</td>
-				    <td>{{row[6]}}</td>
-				    <td>{{row[3]}}</td>
-				    <td>{{row[5]}}</td>
-				    <td>{{row[7]}}</td>
-				    <td>{{row[8]}}</td>
-				  %end
-				  </tr>
-				%end
-			</table>
+			<article>
+				<div class="entry-content">
+					%for row in rows:
+						<p>{{row}}</p>
+				</div><!-- /.entry-content -->
+			</article>
 		</section>
 		<footer class="post-info">
 
