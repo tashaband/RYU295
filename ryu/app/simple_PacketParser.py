@@ -90,7 +90,7 @@ class SimplePacketParser(app_manager.RyuApp):
                     self.writeToDB('TCP', src_mac, dst_mac, src_ip, dst_ip, None, None,tcp_options)
                 if p.protocol_name == 'udp':
 
-                    self.writeToDB('TCP', src_mac, dst_mac, src_ip, dst_ip, None, None,None)
+                    self.writeToDB('UDP', src_mac, dst_mac, src_ip, dst_ip, None, None,None)
                 
     @handler.set_ev_cls(dpset.EventDP)
     def dp_handler(self, ev):
