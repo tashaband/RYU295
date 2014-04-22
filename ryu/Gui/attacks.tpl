@@ -5,7 +5,7 @@
 	<meta charset="utf-8" />
 	<title>SDN DETECTIVE</title>
 	
-	<link rel="stylesheet" href="css/main.css" type="text/css" />
+	<link rel="stylesheet" href="main.css" type="text/css" />
 </head>
  
 <body id="index" class="home">

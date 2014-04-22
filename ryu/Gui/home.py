@@ -1,5 +1,5 @@
 import bottle
-from bottle import route, run, request, abort, debug, template
+from bottle import route, run, request, abort, debug, template , static_file
 import MySQLdb as mdb
 
 
@@ -26,6 +26,10 @@ def attacks_list():
     result = cursor.fetchall()
     
     return template('packets', rows=result)
+
+@route('/<filename:re:.*\.css>')
+def stylesheets(filename):
+    return static_file(filename, root='static/css')
 
 debug(True)
 run(reloader=True)
