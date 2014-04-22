@@ -14,10 +14,10 @@
 		<h1><a href="#">SDN DETECTIVE <strong>IDS system using RYU controller</strong></a></h1>
 	 
 		<nav><ul>
-			<li class="active"><a href="#">home</a></li>
-			<li><a href="#">Traffic</a></li>
+			<li ><a href="#">Home</a></li>
+			<li class="active"><a href="/">Traffic</a></li>
 	 
-			<li><a href="#">Attacks</a></li>
+			<li><a href="/attacks">Attacks</a></li>
 			<li><a href="#">Visulaization</a></li>
 		</ul></nav>
 	 

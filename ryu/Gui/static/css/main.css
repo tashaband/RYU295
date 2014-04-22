@@ -75,6 +75,7 @@
 			background: #C74451;
 			color: #fff;
 			text-shadow: none !important;
+                        border-radius: 5px;
 		}
 		
 		#banner nav li:first-child a {
