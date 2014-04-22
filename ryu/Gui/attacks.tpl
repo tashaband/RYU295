@@ -16,7 +16,7 @@
 		<nav><ul>
 			<li ><a href="#">Home</a></li>
 			<li><a href="/packets">Traffic</a></li>
-			<li class="active"><a href="#">Attacks</a></li>
+			<li class="active"><a href="/attacks">Attacks</a></li>
 			<li><a href="/rules">Rules</a></li>
 			<li><a href="#">Visualization</a></li>
 		</ul></nav>

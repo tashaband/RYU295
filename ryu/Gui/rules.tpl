@@ -15,9 +15,10 @@
 	 
 		<nav><ul>
 			<li ><a href="#">Home</a></li>
-			<li class="active"><a href="/">Traffic</a></li>
+			<li ><a href="/packets">Traffic</a></li>
 	 
 			<li><a href="/attacks">Attacks</a></li>
+			<li class="active"><a href="/rules">Rules</a></li>
 			<li><a href="#">Visulaization</a></li>
 		</ul></nav>
 	 
