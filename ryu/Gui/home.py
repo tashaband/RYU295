@@ -34,5 +34,9 @@ def attacks_list():
 def stylesheets(filename):
     return static_file(filename, root='static/css')
 
+@route('/<filename:re:.*\.png>')
+def stylesheets(filename):
+    return static_file(filename, root='static/img')
+
 debug(True)
 run(reloader=True)
