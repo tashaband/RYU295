@@ -1,3 +1,6 @@
+DROP TABLE attacks;
+DROP TABLE packets;
+
 CREATE TABLE attacks (
 id MEDIUMINT NOT NULL AUTO_INCREMENT,
 name VARCHAR(20), 

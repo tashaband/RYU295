@@ -34,7 +34,7 @@
 			font-weight: bold;
 			margin: 0 0 .6em .2em;
 			text-decoration: none;
-			width: 500px;
+			width: 550px;
 		}
 		#banner h1 a:hover, #banner h1 a:active {
 			background: none;
@@ -110,6 +110,54 @@
             overflow-y:scroll;
             float:left;
         }
+        
+        /*
+        Button styling*/
+		.editButton {
+			-moz-box-shadow:inset 0px 1px 0px 0px #f5978e;
+			-webkit-box-shadow:inset 0px 1px 0px 0px #f5978e;
+			box-shadow:inset 0px 1px 0px 0px #f5978e;
+			background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f08982), color-stop(1, #c74451) );
+			background:-moz-linear-gradient( center top, #f08982 5%, #c74451 100% );
+			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f08982', endColorstr='#c74451');
+			background-color:#f08982;
+			-webkit-border-top-left-radius:18px;
+			-moz-border-radius-topleft:18px;
+			border-top-left-radius:18px;
+			-webkit-border-top-right-radius:18px;
+			-moz-border-radius-topright:18px;
+			border-top-right-radius:18px;
+			-webkit-border-bottom-right-radius:18px;
+			-moz-border-radius-bottomright:18px;
+			border-bottom-right-radius:18px;
+			-webkit-border-bottom-left-radius:18px;
+			-moz-border-radius-bottomleft:18px;
+			border-bottom-left-radius:18px;
+			text-indent:0px;
+			border:1px solid #c74451;
+			display:inline-block;
+			color:#ffffff;
+			font-family:Arial;
+			font-size:18px;
+			font-weight:bold;
+			font-style:normal;
+			height:52px;
+			line-height:52px;
+			width:131px;
+			text-decoration:none;
+			text-align:center;
+			text-shadow:1px 1px 0px #810e05;
+		}
+		.editButton:hover {
+			background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #c74451), color-stop(1, #f08982) );
+			background:-moz-linear-gradient( center top, #c74451 5%, #f08982 100% );
+			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c74451', endColorstr='#f08982');
+			background-color:#c74451;
+		}.editButton:active {
+			position:relative;
+			top:1px;
+		}
+
 				
 		#attacks-list td, #attacks-list th 
 		{
