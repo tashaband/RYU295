@@ -28,6 +28,12 @@
 			line-height: .6;
 			margin-left: 30px;
 		}
+
+                #banner h1 .photo{
+	 		float:left;
+	                width: 88px;
+        	}
+
 		#banner h1 a:link, #banner h1 a:visited {
 			color: #000305;
 			display: block;
@@ -35,6 +41,7 @@
 			margin: 0 0 .6em .2em;
 			text-decoration: none;
 			width: 550px;
+                        padding-top: 25px;
 		}
 		#banner h1 a:hover, #banner h1 a:active {
 			background: none;
@@ -114,49 +121,54 @@
         /*
         Button styling*/
 		.editButton {
-			-moz-box-shadow:inset 0px 1px 0px 0px #f5978e;
-			-webkit-box-shadow:inset 0px 1px 0px 0px #f5978e;
-			box-shadow:inset 0px 1px 0px 0px #f5978e;
-			background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f08982), color-stop(1, #c74451) );
-			background:-moz-linear-gradient( center top, #f08982 5%, #c74451 100% );
-			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f08982', endColorstr='#c74451');
-			background-color:#f08982;
-			-webkit-border-top-left-radius:18px;
-			-moz-border-radius-topleft:18px;
-			border-top-left-radius:18px;
-			-webkit-border-top-right-radius:18px;
-			-moz-border-radius-topright:18px;
-			border-top-right-radius:18px;
-			-webkit-border-bottom-right-radius:18px;
-			-moz-border-radius-bottomright:18px;
-			border-bottom-right-radius:18px;
-			-webkit-border-bottom-left-radius:18px;
-			-moz-border-radius-bottomleft:18px;
-			border-bottom-left-radius:18px;
-			text-indent:0px;
-			border:1px solid #c74451;
-			display:inline-block;
-			color:#ffffff;
-			font-family:Arial;
-			font-size:18px;
-			font-weight:bold;
-			font-style:normal;
-			height:52px;
-			line-height:52px;
-			width:131px;
-			text-decoration:none;
-			text-align:center;
-			text-shadow:1px 1px 0px #810e05;
-		}
-		.editButton:hover {
-			background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #c74451), color-stop(1, #f08982) );
-			background:-moz-linear-gradient( center top, #c74451 5%, #f08982 100% );
-			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c74451', endColorstr='#f08982');
-			background-color:#c74451;
-		}.editButton:active {
-			position:relative;
-			top:1px;
-		}
+				-moz-box-shadow:inset 0px 1px 0px 0px #f5978e;
+				-webkit-box-shadow:inset 0px 1px 0px 0px #f5978e;
+				box-shadow:inset 0px 1px 0px 0px #f5978e;
+				background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d26973), color-stop(1, #c74451) );
+				background:-moz-linear-gradient( center top, #d26973 5%, #c74451 100% );
+				filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d26973', endColorstr='#c74451');
+				background-color:#d26973;
+				-webkit-border-top-left-radius:20px;
+				-moz-border-radius-topleft:20px;
+				border-top-left-radius:20px;
+				-webkit-border-top-right-radius:20px;
+				-moz-border-radius-topright:20px;
+				border-top-right-radius:20px;
+				-webkit-border-bottom-right-radius:20px;
+				-moz-border-radius-bottomright:20px;
+				border-bottom-right-radius:20px;
+				-webkit-border-bottom-left-radius:20px;
+				-moz-border-radius-bottomleft:20px;
+				border-bottom-left-radius:20px;
+				text-indent:0;
+				border:1px solid #d02718;
+				display:inline-block;
+				color:#ffffff;
+				font-family:Arial;
+				font-size:15px;
+				font-weight:bold;
+				font-style:normal;
+				height:36px;
+				line-height:36px;
+				width:120px;
+				text-decoration:none;
+				text-align:center;
+				text-shadow:1px 1px 0px #810e05;
+                                margin-top:20px;
+                                margin-right:10px;
+                                float:right;
+			}
+			.editButton:hover {
+				background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #c74451), color-stop(1, #d26973) );
+				background:-moz-linear-gradient( center top, #c74451 5%, #d26973 100% );
+				filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c74451', endColorstr='#d26973');
+				background-color:#c74451;
+			}.editButton:active {
+				position:relative;
+				top:1px;
+			}
+
+
 
 				
 		#attacks-list td, #attacks-list th 
