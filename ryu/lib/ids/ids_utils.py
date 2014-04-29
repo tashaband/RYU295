@@ -25,7 +25,7 @@ def get_packet_src_ip_address(pkt):
 def get_packet_dst_port(pkt):
     for p in pkt:
             if hasattr(p, 'protocol_name') is True:
-                if p.protocol_name == 'tcp':
+                if p.protocol_name == 'tcp' or p.protocol_name== 'udp':
                     p_dstport = p.dst_port
                     return p_dstport
     return None
@@ -34,9 +34,17 @@ def get_packet_dst_port(pkt):
 def get_packet_src_port(pkt):
     for p in pkt:
             if hasattr(p, 'protocol_name') is True:
-                if p.protocol_name == 'tcp':
+                if p.protocol_name == 'tcp' or p.protocol_name== 'udp':
                     p_srcport = p.src_port
                     return p_srcport
+    return None
+
+def get_packet_tcp_control_bits(pkt):
+    for p in pkt:
+            if hasattr(p, 'protocol_name') is True:
+                if p.protocol_name == 'tcp':
+                    p_bits = p.bits
+                    return p_bits
     return None
 
 def get_packet_length(pkt):
@@ -78,14 +86,14 @@ def get_icmp_packet_data(buf):
 
 
 def print_packet_data(buf, total_lenth):
-    print 'Contents of Buffer in Print_Packet_data ', str(buf)
+    #print 'Contents of Buffer in Print_Packet_data ', str(buf)
     unpack_str = UNPACK_STR % (len(buf))
     pac_len = struct.calcsize(unpack_str)
     if len(buf) < pac_len:
             raise stream_parser.StreamParser.TooSmallException(
                 '%d < %d' % (len(buf), pac_len))
-    print 'unpack string : ' , unpack_str
-    print 'Print Message in ids_utils start'
+    #print 'unpack string : ' , unpack_str
+    #print 'Print Message in ids_utils start'
     data_string = struct.unpack_from(unpack_str, buf)
     print 'data string : ', data_string
    # return data_string

@@ -32,9 +32,9 @@ def generateSuffixShift(key):
     
 # Actual Search Algorithm
 def BMSearch(haystack, needle):
-    #print haystack
+    print 'haystak:', haystack
     #needle = "Accept"
-    #print needle
+    print 'needle: ', needle
     goodSuffix = generateSuffixShift(needle)
     badChar = generateBadCharShift(needle)
     i = 0
@@ -56,9 +56,9 @@ def BMSearch(haystack, needle):
 
 #if __name__ == "__main__":
     #block = "This is a simple example"
-#    block ="('GET / HTTP/1.1\r\nUser-Agent: Wget/1.13.4 (linux-gnu)\r\nAccept: *',)"
-#    print "This is an example search on the string \"", block, "\"."
-#    print "GET:", BMSearch(block, "GET")
+    #block ="echo(data=NetSphere,id=26399,seq=0)"
+    #print "This is an example search on the string \"", block, "\"."
+    #print "NetSphere", BMSearch(block, "NetSphere")
     #print "example :", BMSearch(block, "example")
     #print "simple :", BMSearch(block, "simple")
     #print " imple :", BMSearch(block, " imple")

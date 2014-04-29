@@ -1,11 +1,21 @@
-alert tcp $HOME_NET any $HOME_NET any qazwsx.hsq MALWARE-BACKDOOR-QAZ-Worm-Client-Login-access NONE 
-alert tcp $HOME_NET any $HOME_NET any WHATISIT MALWARE-BACKDOOR-Infector.1.x NONE
-alert tcp $HOME_NET any $HOME_NET any host MALWARE-BACKDOOR-HackAttack-1.20-Connect NONE
-alert tcp $HOME_NET any $HOME_NET any Remote|3A|  MALWARE-BACKDOOR-SatansBackdoor.2.0.Beta NONE
-alert tcp $HOME_NET any $HOME_NET any USER PROTOCOL-FTP-ADMw0rm-ftp-login-attempt NONE
-alert tcp $HOME_NET any $HOME_NET any NetSphere MALWARE-BACKDOOR-NetSphere-access NONE
-alert tcp $HOME_NET any $HOME_NET any GateCrasher MALWARE-BACKDOOR-GateCrasher NONE
-alert tcp $HOME_NET any $HOME_NET any c|3A5C| MALWARE-BACKDOOR-BackConstruction-2.1-Connection NONE
-alert tcp $HOME_NET any $HOME_NET any FTPON MALWARE-BACKDOOR-BackConstruction-2.1-Client-FTP-Open-Request NONE
-alert tcp any any any any GET HTTP-ATTACK NONE
-alert tcp $HOME_NET any $HOME_NET any activate MALWARE-BACKDOOR-Matrix-2.0-Client-connect NONE
+alert icmp $HOME_NET any $HOME_NET any (content:AAAAAAAAAA;msg:"PROTOCOL-ICMP tfn2k icmp possible communication";type:0)
+alert icmp $HOME_NET any $HOME_NET any (msg:"PROTOCOL-ICMP Stacheldraht server spoof";type:0)
+alert icmp $HOME_NET any $HOME_NET any (content:sicken;msg:"PROTOCOL-ICMP Stacheldraht gag server response";type:0)
+alert icmp $HOME_NET any $HOME_NET any (msg:"PROTOCOL-ICMP Destination Unreachable Host Unreachable";type:3)
+alert icmp $HOME_NET any $HOME_NET any (content:1234;msg:"PROTOCOL-ICMP TFN Probe";type:8)
+alert udp $HOME_NET 3344 $HOME_NET 3345 (content:activate;msg:"MALWARE-BACKDOOR Matrix 2.0 Client connect")
+alert udp $HOME_NET 3345 $HOME_NET 3344 (content:logged in;msg:"MALWARE-BACKDOOR Matrix 2.0 Server access")
+alert udp $HOME_NET any $HOME_NET 161 (msg:"SERVER-OTHER Bay/Nortel Nautica Marlin")
+alert udp $HOME_NET any $HOME_NET 518 (content:|01 03 00 00 00 00 00 01 00 02 02 E8|;msg:"OS-LINUX ntalkd x86 Linux overflow")
+alert udp $HOME_NET any $HOME_NET 53 (content:|80 00 07 00 00 00 00 00 01|?|00 01 02|;msg:"SERVER-OTHER Bind Buffer Overflow named tsig overflow attempt")
+alert ip $HOME_NET any $HOME_NET any (msg:"OS-WINDOWS Microsoft WIndows IGMP dos attack")
+alert ip $HOME_NET any $HOME_NET any (content:|03 E0 F8|%|03 E0 F8|%|03 E0 F8|%|03 E0 F8|%;msg:"INDICATOR-SHELLCODE SGI NOOP")
+alert ip $HOME_NET any $HOME_NET any (content:|24 0F 12|4|24 0F 12|4|24 0F 12|4|24 0F 12|4;msg:"INDICATOR-SHELLCODE SGI NOOP")
+alert ip $HOME_NET any $HOME_NET any (content:O|FF FB 82|O|FF FB 82|O|FF FB 82|O|FF FB 82|;msg:"INDICATOR-SHELLCODE AIX NOOP")
+alert ip $HOME_NET any $HOME_NET any (content:G|FF 04 1F|G|FF 04 1F|G|FF 04 1F|G|FF 04 1F|;msg:"INDICATOR-SHELLCODE Digital UNIX NOOP")
+alert tcp $HOME_NET 2589 $HOME_NET any (content:2|00 00 00 06 00 00 00|Drives|24 00|;msg:"MALWARE-BACKDOOR - Dagger_1.4.0")
+alert tcp $HOME_NET any $HOME_NET 7597 (content:qazwsx.hsq;msg:"MALWARE-BACKDOOR QAZ Worm Client Login access")
+alert tcp $HOME_NET any $HOME_NET 12345 (content:GetInfo|0D|;msg:"MALWARE-BACKDOOR netbus getinfo")
+alert tcp $HOME_NET 20034 $HOME_NET any (content:BN|10 00 02 00|;content:|05 00|;msg:"MALWARE-BACKDOOR NetBus Pro 2.0 connection established")
+alert tcp $HOME_NET any $HOME_NET any (content:WHATISIT;msg:"MALWARE-BACKDOOR Infector.1.x")
+alert udp any any any any DNS DNS-Attack

@@ -1,9 +1,9 @@
 import os
-#import gevent
+import gevent
 from ryu.base import app_manager
 from ryu.controller import event
 from ryu.lib.packet import packet
-from . import tcp,ipv4,icmp,udp
+from . import tcp,ipv4,icmp
 from array import *
 
 
@@ -23,13 +23,11 @@ class IDSMonitor(app_manager.RyuApp):
         self.rules = []
         self.sr_ip_addr = []
         self.dst_ip_addr = []
-        self.protocol_types={'udp':udp.udp,'tcp':tcp.tcp,'ip':ipv4.ipv4,'icmp':icmp.icmp}
-        #gevent.spawn_later(0, self.read_rules())
-        self.read_rules()
+        self.protocol_types={'tcp':tcp.tcp,'ip':ipv4.ipv4,'icmp':icmp.icmp}
+        gevent.spawn_later(0, self.read_rules())
+
 
     def check_packet(self,msg):
-        print 'check_packet in IDS Monitor'
-        #self.read_rules()
         for rule in self.rules:
             options = {}
 	    #print 'rule: ', rule
@@ -97,7 +95,6 @@ class IDSMonitor(app_manager.RyuApp):
                     opt = p.split(':')
 
                     opt_key  = opt[0]
-		    
                     #print 'opt_key ', opt_key
                     opt_value = opt[1]
                     #print 'opt_value ', opt_value
@@ -110,31 +107,13 @@ class IDSMonitor(app_manager.RyuApp):
                         opt_key  = "".join(opt_key[1:])
                         #print 'Opt_key inside if ' ,opt_key
 
-		    if opt_key =='content':
-			if not options.has_key(opt_key):
-			   options[opt_key] = [opt_value]
-			else:
-			   options[opt_key].append(opt_value)
-		    else:
-                    	options[opt_key] = opt_value
 
-		    
+                    options[opt_key] = opt_value
 
                 ids_pkt = protocolcls(msg)
 
 		pattern = options.get("content")
                 rule_msg = options.get("msg")
-                
-		flags = options.get("flags")
-		if flags is not None:
-			flags = list(flags)
-
-		depth = options.get("depth")
-		if depth is not None:
-		   depth = int(depth)
-		offset = options.get("offset")
-		if offset is not None:
-		   offset = int(offset) 	
 		#print 'Rule_Msg in IDS Monitor Before Chop:', rule_msg
 		rm = "".join(rule_msg[-1])
 		#print 'Value of rm is:',rm,rule_msg,rm.isspace()
@@ -150,7 +129,7 @@ class IDSMonitor(app_manager.RyuApp):
                 
                 #print 'pattern in IDS Monitor: ',pattern
                 #alertmsg = ids_pkt.check_packet(alert_type,sr_ip,sr_port, dst_ip, dst_port,pattern)
-                alertmsg = ids_pkt.check_packet(alert_type,sr_ip_addr,sr_port, dst_ip_addr, dst_port,str(rule_type),pattern,depth,offset,flags,rule_msg)
+                alertmsg = ids_pkt.check_packet(alert_type,sr_ip_addr,sr_port, dst_ip_addr, dst_port,str(rule_type),pattern,rule_msg)
                 #print 'alertmsg in IDS Monitor: '
                 #print alertmsg
 

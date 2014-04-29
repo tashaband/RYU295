@@ -14,12 +14,12 @@ class icmp(object):
         self.dst_port = ids_utils.get_packet_dst_port(self.packet_data)
 
 
-    def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port,pattern,rule_msg,rule_type): 
+    def check_packet(self,mode,src_ip, src_port, dst_ip, dst_port,rule_type,pattern,depth,offset,flags,rule_msg): 
         for p in self.packet_data:
             if hasattr(p, 'protocol_name') is True:
                 #print p.protocol_name
                 if p.protocol_name == 'icmp':
-                     print 'p.data: ', p.data
+                     #print 'p.data: ', p.data
                      #print p.data
                      match = self.check_ip_match(src_ip, dst_ip,rule_type)
 		     #print 'From ICMP Class : Match'
@@ -27,8 +27,8 @@ class icmp(object):
      		     pkt_contents=""
 		     if match == True:
                          length = ids_utils.get_packet_length(self.packet_data)
-                         print 'length: '
-                         print length
+                         #print 'length: '
+                         #print length
                          #for p in self.packet_data.protocols:
                          #for p in self.packet_data:
                              #print 'p: '
@@ -37,17 +37,34 @@ class icmp(object):
                              #if p.protocol_name == 'ipv4':
                          #print 'Before Call to Print Packet Data in ICMP'
                                #ids_utils.print_packet_data(str(p), length)
-                         ids_utils.print_packet_data(str(p.data), length)
+                         #ids_utils.print_packet_data(str(p.data), length)
                                  #pkt_contents=ids_utils.get_packet_data(str(p),length)
-                         pkt_contents = ids_utils.get_packet_data(str(p.data),length) 
-                         #print pkt_contents
-                         #print 'Pattern: '
+                         contents = ids_utils.get_packet_data(str(p.data),length)
+			 pkt_contents = str(contents)
+	
+			 #ignore the first 11 characters consisting of the string echo(data='	
+			 pkt_contents = pkt_contents[11:]
+
+			 if offset is not None:
+                                    pkt_contents = pkt_contents[offset:]
+                         if depth is not None:
+                                    pkt_contents = pkt_contents[:depth]
+                         
+			 #print 'Pattern: '
                          #print pattern
-                         if pattern !='NONE':
-                                 match_content = BoyerMooreStringSearch.BMSearch(pkt_contents,pattern)
+                         if pattern is not None:
+		            for p in pattern:
+                                 #match_content = BoyerMooreStringSearch.BMSearch(pkt_contents,pattern)
+				  match_content = pkt_contents.find(p)
+				  if match_content == -1:
+                                           break
+			 else:
+			      # if pattern is None just set the match_content to True Value(1)	
+			      match_content = 1	
                          #print 'match_content: '
                          #print match_content
-                         if match_content == True:
+                         #if match_content == True:
+                         if match_content != -1:
                                  f = open('/home/ubuntu/RYU295/ryu/lib/ids/log.txt', 'a')
                                  f.write("\n")
 				 f.write(rule_msg)
@@ -55,7 +72,8 @@ class icmp(object):
                                  self.writeToDB('ICMP Attack Packet', 'icmp',rule_msg, 
                                                 self.src_ip, self.dst_ip, self.src_port, self.dst_port)
                                  #print 'After Call to Print Packet Data in TCP'
-                         if mode == 'alert' and match_content == True:
+                         #if mode == 'alert' and match_content == True:
+                         if mode == 'alert' and match_content != -1:
                                  #print 'TCP Attack Packet'
                                  alertmsg = rule_msg
                                  return alertmsg		
