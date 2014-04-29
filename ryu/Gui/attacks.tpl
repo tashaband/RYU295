@@ -54,9 +54,20 @@
 				%end
 			</table>
 		</section>
-		<footer class="post-info">
-
-		</footer><!-- /.post-info -->
+		<footer class="filter">
+            <form action="/attacks_filter" method="post">
+                          
+                <select class = "filter_type"  name="filter_name">
+				  <option value="protocol">Protocol</option>
+				  <option value="sourceip">Source Ip Address</option>
+				  <option value="destip">Destination IP Address</option>
+				  <option value="sourceport">Source Port Number</option>
+				  <option value="destport">Destination IP Address</option>
+			     </select>
+			     <input class = "filter_p" type="text" name="filter_param">
+			     <input class="button" type="submit">
+			</form>
+		</footer>
 	 
 				
 	</section><!-- /#content --> 

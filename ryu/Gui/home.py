@@ -27,6 +27,19 @@ def attacks_list():
     result = cursor.fetchall()
     return template('packets', rows=result)
 
+@route('/attacks_filter', method='POST')
+def attacks_list():
+    print "list all attacks-filtered"
+    filter_name = request.forms.get('filter_name')
+    filter_param = request.forms.get('filter_param')
+    dbcon = mdb.connect("localhost","testuser","test123","attackdb" )
+    cursor = dbcon.cursor()
+    query= "SELECT * FROM attacks where %s = '%s'"%(filter_name, filter_param)
+    print query
+    cursor.execute(query)
+    result = cursor.fetchall()
+    return template('packets', rows=result)
+
 @route('/attacks', method='GET')
 def attacks_list():
     print "list all attacks caught"
