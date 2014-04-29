@@ -196,6 +196,11 @@
 			background-color: #f3f3f3;
 			height: 20px;
 		}
+		
+		.table_section{
+		overflow-y:scroll;
+		height:500px;
+		}
 				
 		#attacks-list td, #attacks-list th 
 		{

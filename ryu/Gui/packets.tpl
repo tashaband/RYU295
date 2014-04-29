@@ -6,6 +6,7 @@
 	<title>SDN DETECTIVE</title>
 	
 	<link rel="stylesheet" href="main.css" />
+	<meta http-equiv="refresh" content="30">
 </head>
  
 <body id="index" class="home">
@@ -28,9 +29,8 @@
 	<section id="content" class="body">
 		<header>
 			<h2 class="entry-title">The Packets received by IDS-controller are as follows:</h2>
- 
 		</header>
-		<section>
+		<section class="table_section">
 			<table border="1" id= "attacks-list">
 				  <tr>
 				    <th>Protocol</th>
@@ -58,14 +58,14 @@
 			</table>
 		</section>
 		<footer class="filter">
-                        <form action="/packets_filter" method="post">
+            <form action="/packets_filter" method="post">
                           
-                             <select class = "filter_type"  name="filter_name">
+                <select class = "filter_type"  name="filter_name">
 				  <option value="protocol">Protocol</option>
 				  <option value="sourceip">Source Ip Address</option>
 				  <option value="destip">Destination IP Address</option>
 				  <option value="sourceport">Source Port Number</option>
-				  <option value="destport">Destination IP Address</option>
+				  <option value="destport">Destination Port Number</option>
 			     </select>
 			     <input class = "filter_p" type="text" name="filter_param">
 			     <input class="button" type="submit">
