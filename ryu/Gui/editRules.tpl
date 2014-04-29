@@ -31,21 +31,16 @@
 		<section>
 			<article>
 				<div class="entry-content">
-                                     <div class="ruleBox">  
-					%for row in rows:
-						<p>{{row}}</p>
-					%end
-                                     </div>
+                                        <form action="http://localhost:8080/rules" method="post">
+				         	<textarea name="rule_data">{{rows}}</textarea>
+                                                <button class ="editButton">Change Rules</button>
+                                        </form>
 				</div><!-- /.entry-content -->
 			</article>
 		</section>
-		<footer class="post-info">
-                     <form action="http://localhost:8080/editRules" method="get">
-                           <button class ="editButton">Edit Rules</button>
-                     </form>
-		</footer>
 	 
 				
 	</section><!-- /#content --> 
 </body>
 </html>
+

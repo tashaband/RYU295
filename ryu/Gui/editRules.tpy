@@ -31,11 +31,7 @@
 		<section>
 			<article>
 				<div class="entry-content">
-                                     <div class="ruleBox">  
-					%for row in rows:
-						<p>{{row}}</p>
-					%end
-                                     </div>
+					<textarea placeholder={{rows}}></textarea>
 				</div><!-- /.entry-content -->
 			</article>
 		</section>
@@ -49,3 +45,4 @@
 	</section><!-- /#content --> 
 </body>
 </html>
+
