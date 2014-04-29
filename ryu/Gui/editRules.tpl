@@ -33,7 +33,7 @@
 				<div class="entry-content">
                                         <form action="http://localhost:8080/rules" method="post">
 				         	<textarea name="rule_data">{{rows}}</textarea>
-                                                <button class ="editButton">Change Rules</button>
+                                                <button class ="button editButton">Change Rules</button>
                                         </form>
 				</div><!-- /.entry-content -->
 			</article>

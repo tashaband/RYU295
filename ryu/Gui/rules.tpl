@@ -41,7 +41,8 @@
 		</section>
 		<footer class="post-info">
                      <form action="http://localhost:8080/editRules" method="get">
-                           <button class ="editButton">Edit Rules</button>
+                           <button class ="button editButton">Edit Rules</button>
+
                      </form>
 		</footer>
 	 

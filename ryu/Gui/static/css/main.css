@@ -127,7 +127,7 @@
         
         /*
         Button styling*/
-		.editButton {
+		.button {
 				-moz-box-shadow:inset 0px 1px 0px 0px #f5978e;
 				-webkit-box-shadow:inset 0px 1px 0px 0px #f5978e;
 				box-shadow:inset 0px 1px 0px 0px #f5978e;
@@ -163,20 +163,39 @@
 				text-shadow:1px 1px 0px #810e05;
                                 margin-top:20px;
                                 margin-right:10px;
-                                float:right;
 			}
-			.editButton:hover {
+			.button:hover {
 				background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #c74451), color-stop(1, #d26973) );
 				background:-moz-linear-gradient( center top, #c74451 5%, #d26973 100% );
 				filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c74451', endColorstr='#d26973');
 				background-color:#c74451;
-			}.editButton:active {
+			}.button:active {
 				position:relative;
 				top:1px;
 			}
 
+		.editButton {
+			float: right;
+		}
+		
+		.filter{
+		    float: right;
+		}
 
-
+		.filter_type{
+			border-radius: 5px;
+			margin: 10px;
+			background-color: #f3f3f3;
+			height: 25px;
+			cursor: pointer;
+		}
+		
+		.filter_p{
+			border-radius: 5px;
+			margin: 10px;
+			background-color: #f3f3f3;
+			height: 20px;
+		}
 				
 		#attacks-list td, #attacks-list th 
 		{
@@ -200,3 +219,4 @@
 		color:#000000;
 		background-color:#EAF2D3;
 		}
+
