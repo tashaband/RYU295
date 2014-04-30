@@ -82,8 +82,8 @@ class tcp(object):
 
         if (('any' in src_ip) or (self.src_ip in src_ip)):
             if (('any' in dst_ip) or (self.dst_ip in dst_ip)):
-                if ((src_port == 'any') or (src_port == self.src_port)):
-                    if ((dst_port == 'any') or (dst_port == self.dst_port)):
+                if ((src_port == 'any') or (int(src_port) == int(self.src_port))):
+                    if ((dst_port == 'any') or (int(dst_port) == int(self.dst_port))):
 		       if flags is not None:
 			  for b in flags:
 			    if not b in bits:

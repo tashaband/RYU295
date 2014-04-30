@@ -54,12 +54,13 @@ class SimplePacketParser(app_manager.RyuApp):
     
 
     def packetParser(self, msg):
+        #print 'Inside packetParser'
         my_array = array('B', msg.data)
         pkt = packet.Packet(my_array)
         for p in pkt.protocols:
-            if hasattr(p, 'protocol_name') is False:
-                print 'data:', p
-            else:
+            if hasattr(p, 'protocol_name') is True:
+                #print 'data:', p
+            #else:
                 #print p.protocol_name
                 if p.protocol_name == 'ethernet':
                       #print 'ethernet src = ', p.src
@@ -133,9 +134,11 @@ class SimplePacketParser(app_manager.RyuApp):
 
         #self.logger.info("packet in %s %s %s %s", dpid, src, dst, msg.in_port)
         
-        self.packetParser(msg)
+        #self.packetParser(msg)
+        #self.ids_monitor.check_packet(msg)
         if reason == ofproto_v1_0.OFPR_ACTION:
-		print 'Call to Check Packet from SPP'
+		#print 'Call to Check Packet from SPP'
+                self.packetParser(msg)
                 self.ids_monitor.check_packet(msg)
         
         # learn a mac address to avoid FLOOD next time.
@@ -157,7 +160,7 @@ class SimplePacketParser(app_manager.RyuApp):
 		out = datapath.ofproto_parser.OFPPacketOut(
             	      datapath=datapath, buffer_id=msg.buffer_id, in_port=msg.in_port,
             	      actions=actions)
-                datapath.send_msg(out)
+        	datapath.send_msg(out)
 
 
     @set_ev_cls(ids_monitor.AttackAlert)

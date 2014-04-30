@@ -28,7 +28,7 @@ class IDSMonitor(app_manager.RyuApp):
         self.read_rules()
 
     def check_packet(self,msg):
-        print 'check_packet in IDS Monitor'
+        #print 'check_packet in IDS Monitor'
         #self.read_rules()
         for rule in self.rules:
             options = {}

@@ -48,6 +48,8 @@ class ipv4(object):
                                  	match_content = pkt_contents.find(p)
 					if match_content == -1:
                                            break
+			     else:
+				  match_content =1 	
                                  #print 'match_content: ', match_content
                              #if match_content == True:
                              if match_content != -1:
