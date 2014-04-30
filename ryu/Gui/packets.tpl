@@ -13,15 +13,14 @@
  
 	<header id="banner" class="body">
 		<h1><img src="security_guard_icon_mod.png" alt="Logo" class="photo" />
-		<a href="#">SDN DETECTIVE <strong>IDS system using RYU controller</strong></a></h1>
+		<a href="/">SDN DETECTIVE <strong>IDS system using RYU controller</strong></a></h1>
 	 
 		<nav><ul>
-			<li ><a href="#">Home</a></li>
+			<li ><a href="/">Home</a></li>
 			<li class="active"><a href="/">Traffic</a></li>
 	 
 			<li><a href="/attacks">Attacks</a></li>
 			<li><a href="/rules">Rules</a></li>
-			<li><a href="#">Visualization</a></li>
 		</ul></nav>
 	 
 	</header><!-- /#banner -->	

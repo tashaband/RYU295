@@ -14,26 +14,23 @@
 	        <h1><img src="security_guard_icon_mod.png" alt="Logo" class="photo" />
                 <a href="/">SDN DETECTIVE <strong>IDS system using RYU controller</strong></a></h1> 
 		<nav><ul>
-			<li ><a href="/">Home</a></li>
+			<li class="active"><a href="/">Home</a></li>
 			<li ><a href="/packets">Traffic</a></li>
 	 
 			<li><a href="/attacks">Attacks</a></li>
-			<li class="active"><a href="/rules">Rules</a></li>
+			<li><a href="/rules">Rules</a></li>
 		</ul></nav>
 	 
 	</header><!-- /#banner -->	
 	
 	<section id="content" class="body">
 		<header>
-			<h2 class="entry-title">Edit IDS rules to catch attacks</h2>
+			<h2 class="entry-title">Topology</h2>
 		</header>
 		<section>
 			<article>
 				<div class="entry-content">
-                                        <form action="http://localhost:8080/rules" method="post">
-				         	<textarea name="rule_data">{{rows}}</textarea>
-                                                <button class ="button editButton">Change Rules</button>
-                                        </form>
+                    <img src="topology.png" alt="Logo" class="topo" />                 
 				</div><!-- /.entry-content -->
 			</article>
 		</section>
@@ -42,4 +39,3 @@
 	</section><!-- /#content --> 
 </body>
 </html>
-

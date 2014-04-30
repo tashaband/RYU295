@@ -6,7 +6,7 @@ import MySQLdb as mdb
 
 @route('/packets', method='GET')
 @route('/', method='GET')
-def attacks_list():
+def packets_list():
     print "list all received packets and their protocols"
     dbcon = mdb.connect("localhost","testuser","test123","attackdb" )
     cursor = dbcon.cursor()
@@ -14,8 +14,13 @@ def attacks_list():
     result = cursor.fetchall()
     return template('packets', rows=result)
 
+@route('/', method='GET')
+def display_home():
+    print "home page"
+    return template('home')
+
 @route('/packets_filter', method='POST')
-def attacks_list():
+def packets_list_filtered():
     print "list all received packets and their protocols-filtered"
     filter_name = request.forms.get('filter_name')
     filter_param = request.forms.get('filter_param')
@@ -28,7 +33,7 @@ def attacks_list():
     return template('packets', rows=result)
 
 @route('/attacks_filter', method='POST')
-def attacks_list():
+def attacks_list_filtered():
     print "list all attacks-filtered"
     filter_name = request.forms.get('filter_name')
     filter_param = request.forms.get('filter_param')
@@ -50,7 +55,7 @@ def attacks_list():
     return template('attacks', rows=result)
 
 @route('/rules', method='GET')
-def attacks_list():
+def rules_list():
     print "list all attacks rules"
     fname = '/home/ubuntu/RYU295/ryu/lib/ids/rules.txt'
     with open(fname) as f:
