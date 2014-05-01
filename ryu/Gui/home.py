@@ -32,6 +32,19 @@ def packets_list_filtered():
     result = cursor.fetchall()
     return template('packets', rows=result)
 
+@route('/packets-ip/:ipaddr', method='GET')
+def packets_list_filtered(ipaddr):
+    print "list all received packets and their protocols-filtered for given ip address"
+    filter_name = request.forms.get('filter_name')
+    filter_param = request.forms.get('filter_param')
+    dbcon = mdb.connect("localhost","testuser","test123","attackdb" )
+    cursor = dbcon.cursor()
+    query= "SELECT * FROM packets where sourceip = '%s' or destip = '%s'"%(ipaddr, ipaddr)
+    print query
+    cursor.execute(query)
+    result = cursor.fetchall()
+    return template('packets', rows=result)
+
 @route('/attacks_filter', method='POST')
 def attacks_list_filtered():
     print "list all attacks-filtered"
@@ -88,13 +101,18 @@ def change_rules():
     return template('rules', rows=rules)
 
 @route('/<filename:re:.*\.css>')
-@route('/*/<filename:re:.*\.css>')
+@route('/packets-ip/<filename:re:.*\.css>')
 def stylesheets(filename):
     return static_file(filename, root='static/css')
 
 @route('/<filename:re:.*\.png>')
-def stylesheets(filename):
+@route('/packets-ip/<filename:re:.*\.png>')
+def images(filename):
     return static_file(filename, root='static/img')
+
+@route('/<filename:re:.*\.js>')
+def javascriptFiles(filename):
+    return static_file(filename, root='static/js')
 
 debug(True)
 run(reloader=True)

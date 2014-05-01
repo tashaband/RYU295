@@ -5,14 +5,14 @@
 	<meta charset="utf-8" />
 	<title>SDN DETECTIVE</title>
 	
-	<link rel="stylesheet" href="main.css" />
+	<link rel="stylesheet" href="http://localhost:8080/main.css" />
 	<meta http-equiv="refresh" content="30">
 </head>
  
 <body id="index" class="home">
  
 	<header id="banner" class="body">
-		<h1><img src="security_guard_icon_mod.png" alt="Logo" class="photo" />
+		<h1><img src="http://localhost:8080/security_guard_icon_mod.png" alt="Logo" class="photo" />
 		<a href="/">SDN DETECTIVE <strong>IDS system using RYU controller</strong></a></h1>
 	 
 		<nav><ul>

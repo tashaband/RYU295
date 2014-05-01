@@ -112,9 +112,17 @@
 		
 		.entry-content{
             width:1000px;
-            height:500px;
+            height:600px;
             float:left;
-        }    
+        }   
+
+
+            .topo{
+		height: 500px;
+		width: 500px;
+		margin-left: 250px;
+
+		} 
             .ruleBox{
                  background-color:#F3F3F3;
                  overflow-y:scroll;
