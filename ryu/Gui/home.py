@@ -5,15 +5,17 @@ import MySQLdb as mdb
 
 
 @route('/packets', method='GET')
-@route('/', method='GET')
 def packets_list():
     print "list all received packets and their protocols"
     dbcon = mdb.connect("localhost","testuser","test123","attackdb" )
     cursor = dbcon.cursor()
     cursor.execute("SELECT * FROM packets")
     result = cursor.fetchall()
+    if not result:
+        return template('emptyTable', back_url='/home')
     return template('packets', rows=result)
 
+@route('/home', method='GET')
 @route('/', method='GET')
 def display_home():
     print "home page"
@@ -30,6 +32,8 @@ def packets_list_filtered():
     print query
     cursor.execute(query)
     result = cursor.fetchall()
+    if not result:
+        return template('emptyTable', back_url='/packets')
     return template('packets', rows=result)
 
 @route('/packets-ip/:ipaddr', method='GET')
@@ -43,6 +47,8 @@ def packets_list_filtered(ipaddr):
     print query
     cursor.execute(query)
     result = cursor.fetchall()
+    if not result:
+        return template('emptyTable', back_url='/home')
     return template('packets', rows=result)
 
 @route('/attacks_filter', method='POST')
@@ -56,6 +62,8 @@ def attacks_list_filtered():
     print query
     cursor.execute(query)
     result = cursor.fetchall()
+    if not result:
+        return template('emptyTable', back_url='/attacks')
     return template('packets', rows=result)
 
 @route('/attacks', method='GET')
@@ -65,6 +73,8 @@ def attacks_list():
     cursor = dbcon.cursor()
     cursor.execute("SELECT * FROM attacks")
     result = cursor.fetchall()   
+    if not result:
+        return template('emptyTable', back_url='/home')
     return template('attacks', rows=result)
 
 @route('/rules', method='GET')
