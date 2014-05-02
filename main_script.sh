@@ -1,8 +1,8 @@
 #!/bin/bash
 
-for i in "/home/ubuntu/hpingScripts/"*
+for i in "/home/ubuntu/RYU295/hpingScripts/"*
 do
-	"$i" &
+	"$i" 
 done
 
 wait
